@@ -1,0 +1,78 @@
+import { useI18n, type Lang } from "@/lib/i18n";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+
+const navItems = [
+  { key: "nav.home", href: "#home" },
+  { key: "nav.services", href: "#services" },
+  { key: "nav.portfolio", href: "#portfolio" },
+  { key: "nav.about", href: "#about" },
+  { key: "nav.contact", href: "#contact" },
+];
+
+export function Header() {
+  const { t, lang, setLang } = useI18n();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const toggleLang = () => setLang(lang === "en" ? ("ar" as Lang) : ("en" as Lang));
+
+  return (
+    <motion.header
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="fixed inset-x-0 top-4 z-50 flex justify-center px-4"
+    >
+      <nav
+        className={`flex w-full max-w-5xl items-center justify-between gap-3 rounded-full border border-white/10 px-3 py-2 transition-all sm:gap-6 sm:px-5 ${
+          scrolled ? "bg-background/80 backdrop-blur-xl shadow-card" : "bg-card/40 backdrop-blur-md"
+        }`}
+      >
+        <a href="#home" className="flex items-center gap-2 ps-1">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-primary font-display text-sm font-bold text-primary-foreground shadow-glow">
+            T
+          </div>
+          <span className="hidden font-display text-sm font-semibold tracking-tight sm:inline">
+            TMOOH
+          </span>
+        </a>
+
+        <ul className="hidden items-center gap-1 md:flex">
+          {navItems.map((item) => (
+            <li key={item.key}>
+              <a
+                href={item.href}
+                className="rounded-full px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
+              >
+                {t(item.key)}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleLang}
+            aria-label="Toggle language"
+            className="rounded-full border border-white/10 px-3 py-1.5 text-xs font-semibold text-foreground/80 transition hover:bg-white/5"
+          >
+            {lang === "en" ? "ع" : "EN"}
+          </button>
+          <a
+            href="#contact"
+            className="rounded-full bg-gradient-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-glow transition hover:opacity-90 sm:text-sm"
+          >
+            {t("nav.cta")}
+          </a>
+        </div>
+      </nav>
+    </motion.header>
+  );
+}
