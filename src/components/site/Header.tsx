@@ -1,13 +1,14 @@
 import { useI18n, type Lang } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Link } from "@tanstack/react-router";
 
 const navItems = [
-  { key: "nav.home", href: "#home" },
-  { key: "nav.services", href: "#services" },
-  { key: "nav.portfolio", href: "#portfolio" },
-  { key: "nav.about", href: "#about" },
-  { key: "nav.contact", href: "#contact" },
+  { key: "nav.home", to: "/" as const },
+  { key: "nav.services", to: "/services" as const },
+  { key: "nav.portfolio", to: "/portfolio" as const },
+  { key: "nav.about", to: "/about" as const },
+  { key: "nav.contact", to: "/contact" as const },
 ];
 
 export function Header() {
@@ -35,24 +36,26 @@ export function Header() {
           scrolled ? "bg-background/80 backdrop-blur-xl shadow-card" : "bg-card/40 backdrop-blur-md"
         }`}
       >
-        <a href="#home" className="flex items-center gap-2 ps-1">
+        <Link to="/" className="flex items-center gap-2 ps-1">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-primary font-display text-sm font-bold text-primary-foreground shadow-glow">
             T
           </div>
           <span className="hidden font-display text-sm font-semibold tracking-tight sm:inline">
             TMOOH
           </span>
-        </a>
+        </Link>
 
         <ul className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => (
             <li key={item.key}>
-              <a
-                href={item.href}
+              <Link
+                to={item.to}
+                activeOptions={{ exact: true }}
+                activeProps={{ className: "bg-white/10 text-foreground" }}
                 className="rounded-full px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
               >
                 {t(item.key)}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -65,12 +68,12 @@ export function Header() {
           >
             {lang === "en" ? "ع" : "EN"}
           </button>
-          <a
-            href="#contact"
+          <Link
+            to="/contact"
             className="rounded-full bg-gradient-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-glow transition hover:opacity-90 sm:text-sm"
           >
             {t("nav.cta")}
-          </a>
+          </Link>
         </div>
       </nav>
     </motion.header>
