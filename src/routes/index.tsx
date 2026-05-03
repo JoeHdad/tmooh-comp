@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
 import { Services } from "@/components/site/Services";
-import { Portfolio } from "@/components/site/Portfolio";
-import { Testimonials } from "@/components/site/Testimonials";
-import { About } from "@/components/site/About";
-import { Contact } from "@/components/site/Contact";
+import { WhyUs } from "@/components/site/WhyUs";
+import { Process } from "@/components/site/Process";
+import { MoreWorks } from "@/components/site/MoreWorks";
+import { ReachOut } from "@/components/site/ReachOut";
 import { Footer } from "@/components/site/Footer";
 
 export const Route = createFileRoute("/")({
@@ -19,10 +19,10 @@ function HomePage() {
       <main>
         <Hero />
         <Services />
-        <Portfolio />
-        <Testimonials />
-        <About />
-        <Contact />
+        <WhyUs />
+        <Process />
+        <MoreWorks />
+        <ReachOut />
       </main>
       <Footer />
     </div>

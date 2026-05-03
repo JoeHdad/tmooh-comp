@@ -92,6 +92,46 @@ const en: Dict = {
   "contact.error": "Something went wrong. Please try again.",
 
   "footer.rights": "All rights reserved.",
+
+  "why.eyebrow": "Why TMOOH",
+  "why.title": "Why startups choose us",
+  "why.1.title": "Fast, no delays",
+  "why.1.desc": "We move fast and deliver without unnecessary waiting or complexity.",
+  "why.2.title": "Built with purpose",
+  "why.2.desc": "Every design and feature is created to solve real problems — not just look good.",
+  "why.3.title": "Real collaboration",
+  "why.3.desc": "We work with you, not just for you. Clear communication at every step.",
+  "why.4.title": "Ready to scale",
+  "why.4.desc": "We build products that grow with your business from day one.",
+
+  "process.eyebrow": "Our process",
+  "process.title": "From idea to launch",
+  "process.1.label": "Understand",
+  "process.1.title": "We start by understanding you",
+  "process.1.desc": "We dive deep into your idea, goals, and vision — so we build the right thing from the start.",
+  "process.2.label": "Shape",
+  "process.2.title": "We turn your idea into a clear plan",
+  "process.2.desc": "We define the structure, user flow, and product direction before writing a single line of code.",
+  "process.3.label": "Design",
+  "process.3.title": "We create enjoyable experiences",
+  "process.3.desc": "Clean, intuitive, and focused on real users — not just visuals.",
+  "process.4.label": "Build",
+  "process.4.title": "We bring everything to life",
+  "process.4.desc": "Fast, precise development with attention to performance and scalability.",
+  "process.5.label": "Launch",
+  "process.5.title": "We launch — and stay with you",
+  "process.5.desc": "We don't just deliver and disappear. We help you launch and move forward.",
+
+  "more.title": "See More Works",
+  "more.name": "Project Name",
+  "more.text": "A modern digital experience built for impact.",
+  "more.tag1": "Brand Identity",
+  "more.tag2": "Web Design",
+
+  "reach.title": "Let's talk",
+  "reach.sub": "Reach out directly — we reply fast.",
+  "reach.email": "Email",
+  "reach.whatsapp": "WhatsApp",
 };
 
 const ar: Dict = {
@@ -182,6 +222,46 @@ const ar: Dict = {
   "contact.error": "حدث خطأ. حاول مرة أخرى.",
 
   "footer.rights": "جميع الحقوق محفوظة.",
+
+  "why.eyebrow": "لماذا TMOOH",
+  "why.title": "لماذا تختارنا الشركات الناشئة",
+  "why.1.title": "سريع بلا تأخير",
+  "why.1.desc": "نتحرك بسرعة ونُسلّم دون انتظار أو تعقيد لا داعي له.",
+  "why.2.title": "مبني بهدف",
+  "why.2.desc": "كل تصميم وميزة صُمّمت لحل مشاكل حقيقية — لا لمجرد الشكل.",
+  "why.3.title": "تعاون حقيقي",
+  "why.3.desc": "نعمل معك، لا نيابة عنك فقط. تواصل واضح في كل خطوة.",
+  "why.4.title": "جاهز للنمو",
+  "why.4.desc": "نبني منتجات تنمو مع أعمالك من اليوم الأول.",
+
+  "process.eyebrow": "مراحل العمل",
+  "process.title": "من الفكرة إلى الإطلاق",
+  "process.1.label": "فهم",
+  "process.1.title": "نبدأ بفهمك جيدًا",
+  "process.1.desc": "نتعمّق في فكرتك وأهدافك ورؤيتك — لنبني الشيء الصحيح من البداية.",
+  "process.2.label": "تخطيط",
+  "process.2.title": "نحوّل فكرتك إلى خطة واضحة",
+  "process.2.desc": "نحدد البنية وتدفق المستخدم قبل كتابة أي سطر برمجي.",
+  "process.3.label": "تصميم",
+  "process.3.title": "نصنع تجارب ممتعة",
+  "process.3.desc": "نظيفة، بديهية، وموجّهة للمستخدم الحقيقي — لا للشكل فقط.",
+  "process.4.label": "تطوير",
+  "process.4.title": "نُحوّل كل شيء إلى واقع",
+  "process.4.desc": "تطوير دقيق وسريع مع اهتمام بالأداء والقابلية للنمو.",
+  "process.5.label": "إطلاق",
+  "process.5.title": "نُطلق — ونبقى معك",
+  "process.5.desc": "لا نختفي بعد التسليم. نساعدك على الإطلاق والنمو.",
+
+  "more.title": "شاهد المزيد من الأعمال",
+  "more.name": "اسم المشروع",
+  "more.text": "تجربة رقمية حديثة مصممة لإحداث الأثر.",
+  "more.tag1": "هوية بصرية",
+  "more.tag2": "تصميم ويب",
+
+  "reach.title": "تواصل معنا",
+  "reach.sub": "تواصل معنا مباشرة — نرد بسرعة.",
+  "reach.email": "البريد الإلكتروني",
+  "reach.whatsapp": "واتساب",
 };
 
 const dicts: Record<Lang, Dict> = { en, ar };

@@ -21,11 +21,27 @@ export function Services() {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-glow">
             {t("services.eyebrow")}
           </p>
-          <h2 className="mt-3 font-display text-4xl font-bold sm:text-5xl">
-            {t("services.title")}
-          </h2>
-          <p className="mt-4 text-muted-foreground">{t("services.sub")}</p>
         </div>
+      </div>
+
+      {/* Animated single-line marquee headline */}
+      <div className="relative mt-6 overflow-hidden">
+        <div className="flex w-max whitespace-nowrap animate-marquee gap-12 px-6">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <span
+              key={i}
+              className="font-display text-5xl font-bold sm:text-6xl md:text-7xl text-gradient"
+            >
+              {t("services.title")} ✦
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="container mx-auto max-w-6xl px-6">
+        <p className="mx-auto mt-6 max-w-2xl text-center text-muted-foreground">
+          {t("services.sub")}
+        </p>
 
         <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map(({ id, Icon }, i) => (
