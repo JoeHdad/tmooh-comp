@@ -1,6 +1,7 @@
 import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export function Hero() {
   const { t } = useI18n();
@@ -55,19 +56,19 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-3"
         >
-          <a
-            href="#contact"
+          <Link
+            to="/contact"
             className="group inline-flex items-center gap-2 rounded-full bg-gradient-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition hover:scale-[1.02]"
           >
             {t("hero.cta")}
             <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
-          <a
-            href="#portfolio"
+          </Link>
+          <Link
+            to="/portfolio"
             className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-foreground/90 backdrop-blur transition hover:bg-white/10"
           >
             {t("hero.cta2")}
-          </a>
+          </Link>
         </motion.div>
       </div>
 
