@@ -2,6 +2,7 @@ import { useI18n, type Lang } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
+import logo from "@/assets/tmooh-logo.png";
 
 const navItems = [
   { key: "nav.home", to: "/" as const },
@@ -37,12 +38,7 @@ export function Header() {
         }`}
       >
         <Link to="/" className="flex items-center gap-2 ps-1">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-primary font-display text-sm font-bold text-primary-foreground shadow-glow">
-            T
-          </div>
-          <span className="hidden font-display text-sm font-semibold tracking-tight sm:inline">
-            TMOOH
-          </span>
+          <img src={logo} alt="TMOOH" className="h-9 w-auto" />
         </Link>
 
         <ul className="hidden items-center gap-1 md:flex">
