@@ -1,6 +1,7 @@
 import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { Code2, Palette, Megaphone } from "lucide-react";
+import logo from "@/assets/tmooh-logo.png";
 
 export function About() {
   const { t } = useI18n();
@@ -36,11 +37,9 @@ export function About() {
             transition={{ duration: 0.6 }}
             className="relative mx-auto h-80 w-full max-w-md"
           >
-            {/* Big T logo */}
+            {/* Logo */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="font-display text-[12rem] font-bold leading-none text-gradient">
-                T
-              </div>
+              <img src={logo} alt="TMOOH" className="h-64 w-auto" />
             </div>
             {/* Floating tags */}
             {tags.map(({ key, Icon, pos }) => (
