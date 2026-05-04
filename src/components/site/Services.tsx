@@ -1,5 +1,5 @@
 import { useI18n } from "@/lib/i18n";
-import { motion } from "framer-motion";
+
 import { BarChart3, Megaphone, Code2, Brush, Layers, Smartphone, Check } from "lucide-react";
 
 const services = [
@@ -32,39 +32,40 @@ export function Services() {
         <p className="mx-auto mt-8 max-w-2xl text-center text-muted-foreground">
           {t("services.sub")}
         </p>
+      </div>
 
-        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map(({ id, Icon }, i) => (
-            <motion.div
-              key={id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.06 }}
-              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-card p-7 shadow-card transition hover:border-primary/40 hover:shadow-glow"
+      {/* Single-line animated marquee of service cards */}
+      <div className="relative mt-16 overflow-hidden">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
+        <div className="flex w-max animate-marquee gap-5 px-6">
+          {[...services, ...services].map(({ id, Icon }, i) => (
+            <div
+              key={`${id}-${i}`}
+              className="group relative w-[340px] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-card p-7 shadow-card transition hover:border-primary/40 hover:shadow-glow"
             >
               <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl opacity-0 transition group-hover:opacity-100" />
               <div className="relative">
                 <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow">
                   <Icon className="h-6 w-6" />
                 </div>
-                <h3 className="font-display text-xl font-semibold">
+                <h3 className="font-display text-xl font-semibold whitespace-normal">
                   {t(`services.${id}.title`)}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground whitespace-normal">
                   {t(`services.${id}.desc`)}
                 </p>
                 <div className="my-5 h-px bg-white/10" />
                 <ul className="space-y-2">
                   {["f1", "f2", "f3"].map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-sm text-foreground/80">
-                      <Check className="h-3.5 w-3.5 text-primary-glow" />
+                    <li key={f} className="flex items-center gap-2 text-sm text-foreground/80 whitespace-normal">
+                      <Check className="h-3.5 w-3.5 shrink-0 text-primary-glow" />
                       {t(`services.${id}.${f}`)}
                     </li>
                   ))}
                 </ul>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
