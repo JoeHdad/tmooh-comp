@@ -42,7 +42,7 @@ export function Services() {
           {[...services, ...services].map(({ id, Icon }, i) => (
             <div
               key={`${id}-${i}`}
-              className="group relative w-[340px] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-card p-7 shadow-card transition hover:border-primary/40 hover:shadow-glow"
+              className="group relative w-[340px] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-card p-7 shadow-card transition hover:border-primary/40 hover:shadow-glow hover-lift"
             >
               <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl opacity-0 transition group-hover:opacity-100" />
               <div className="relative">
