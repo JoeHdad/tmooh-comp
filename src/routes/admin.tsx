@@ -81,7 +81,7 @@ function AdminLayout() {
           {nav.map((item) => (
             <Link
               key={item.to}
-              to={item.to}
+              to={item.to as any}
               activeOptions={item.exact ? { exact: true } : undefined}
               activeProps={{ className: "bg-primary/15 text-foreground" }}
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition hover:bg-white/5 hover:text-foreground"
@@ -113,7 +113,7 @@ function AdminLayout() {
           {nav.map((item) => (
             <Link
               key={item.to}
-              to={item.to}
+              to={item.to as any}
               activeOptions={item.exact ? { exact: true } : undefined}
               activeProps={{ className: "bg-primary/15 text-foreground" }}
               className="shrink-0 rounded-lg px-3 py-1.5 text-xs text-muted-foreground hover:bg-white/5"
