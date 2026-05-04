@@ -79,34 +79,39 @@ export function Services() {
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
         <div className="flex w-max animate-marquee gap-5 px-6">
-          {[...services, ...services].map(({ id, Icon }, i) => (
-            <div
-              key={`${id}-${i}`}
-              className="group relative w-[340px] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-card p-7 shadow-card transition hover:border-primary/40 hover:shadow-glow hover-lift"
-            >
-              <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl opacity-0 transition group-hover:opacity-100" />
-              <div className="relative">
-                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow">
-                  <Icon className="h-6 w-6" />
+          {[...items, ...items].map((item, i) => {
+            const Icon = item.Icon;
+            return (
+              <div
+                key={`${item.id}-${i}`}
+                className="group relative w-[340px] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-card p-7 shadow-card transition hover:border-primary/40 hover:shadow-glow hover-lift"
+              >
+                <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl opacity-0 transition group-hover:opacity-100" />
+                <div className="relative">
+                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="font-display text-xl font-semibold whitespace-normal">{item.title}</h3>
+                  {item.desc && (
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground whitespace-normal">{item.desc}</p>
+                  )}
+                  {item.features.length > 0 && (
+                    <>
+                      <div className="my-5 h-px bg-white/10" />
+                      <ul className="space-y-2">
+                        {item.features.map((f, idx) => (
+                          <li key={idx} className="flex items-center gap-2 text-sm text-foreground/80 whitespace-normal">
+                            <Check className="h-3.5 w-3.5 shrink-0 text-primary-glow" />
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                 </div>
-                <h3 className="font-display text-xl font-semibold whitespace-normal">
-                  {t(`services.${id}.title`)}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground whitespace-normal">
-                  {t(`services.${id}.desc`)}
-                </p>
-                <div className="my-5 h-px bg-white/10" />
-                <ul className="space-y-2">
-                  {["f1", "f2", "f3"].map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-sm text-foreground/80 whitespace-normal">
-                      <Check className="h-3.5 w-3.5 shrink-0 text-primary-glow" />
-                      {t(`services.${id}.${f}`)}
-                    </li>
-                  ))}
-                </ul>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
