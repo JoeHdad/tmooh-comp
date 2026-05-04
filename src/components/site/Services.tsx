@@ -1,8 +1,10 @@
 import { useI18n } from "@/lib/i18n";
-
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import * as Lucide from "lucide-react";
 import { BarChart3, Megaphone, Code2, Brush, Layers, Smartphone, Check } from "lucide-react";
 
-const services = [
+const fallback = [
   { id: "s1", Icon: BarChart3 },
   { id: "s2", Icon: Megaphone },
   { id: "s3", Icon: Code2 },
@@ -11,8 +13,46 @@ const services = [
   { id: "s6", Icon: Smartphone },
 ];
 
+type DbService = {
+  id: string;
+  name: string;
+  description: string | null;
+  icon: string | null;
+};
+
 export function Services() {
   const { t } = useI18n();
+  const [db, setDb] = useState<DbService[] | null>(null);
+
+  useEffect(() => {
+    supabase
+      .from("services")
+      .select("id,name,description,icon")
+      .eq("published", true)
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => setDb((data as DbService[]) ?? []));
+  }, []);
+
+  const useDb = db && db.length > 0;
+  const items = useDb
+    ? db!.map((s) => {
+        const Icon =
+          (s.icon && (Lucide as any)[s.icon]) || Layers;
+        return {
+          id: s.id,
+          Icon,
+          title: s.name,
+          desc: s.description ?? "",
+          features: [] as string[],
+        };
+      })
+    : fallback.map((f) => ({
+        id: f.id,
+        Icon: f.Icon,
+        title: t(`services.${f.id}.title`),
+        desc: t(`services.${f.id}.desc`),
+        features: ["f1", "f2", "f3"].map((k) => t(`services.${f.id}.${k}`)),
+      }));
 
   return (
     <section id="services" className="relative py-24 sm:py-32">
