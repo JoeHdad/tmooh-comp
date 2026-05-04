@@ -6,10 +6,10 @@ import imgCollab from "@/assets/why-collab.jpg";
 import imgScale from "@/assets/why-scale.jpg";
 
 const items = [
-  { n: "01", key: "1", img: imgFast },
-  { n: "02", key: "2", img: imgPurpose },
-  { n: "03", key: "3", img: imgCollab },
-  { n: "04", key: "4", img: imgScale },
+  { n: "01", key: "1" },
+  { n: "02", key: "2" },
+  { n: "03", key: "3" },
+  { n: "04", key: "4" },
 ];
 
 export function WhyUs() {
@@ -26,40 +26,69 @@ export function WhyUs() {
           </h2>
         </div>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {items.map(({ n, key, img }, i) => (
-            <motion.article
-              key={key}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="group overflow-hidden rounded-3xl border border-white/10 bg-card shadow-card transition hover:border-primary/40 hover:shadow-glow"
-            >
-              <div className="relative aspect-[4/5] overflow-hidden">
+        <div className="mt-14 grid gap-8 lg:grid-cols-2 lg:items-center">
+          {/* Image collage */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col gap-4">
+              <div className="overflow-hidden rounded-3xl border border-white/10 shadow-card">
                 <img
-                  src={img}
-                  alt={t(`why.${key}.title`)}
+                  src={imgFast}
+                  alt=""
                   loading="lazy"
-                  width={640}
-                  height={800}
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  className="aspect-[3/4] w-full object-cover transition duration-700 hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
               </div>
-              <div className="p-6">
-                <div className="inline-flex h-9 items-center justify-center rounded-full bg-white/5 px-3 text-xs font-bold tracking-wider text-primary-glow">
+              <div className="overflow-hidden rounded-3xl border border-white/10 shadow-card">
+                <img
+                  src={imgCollab}
+                  alt=""
+                  loading="lazy"
+                  className="aspect-square w-full object-cover transition duration-700 hover:scale-105"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-4 pt-8">
+              <div className="overflow-hidden rounded-3xl border border-white/10 shadow-card">
+                <img
+                  src={imgPurpose}
+                  alt=""
+                  loading="lazy"
+                  className="aspect-square w-full object-cover transition duration-700 hover:scale-105"
+                />
+              </div>
+              <div className="overflow-hidden rounded-3xl border border-white/10 shadow-card">
+                <img
+                  src={imgScale}
+                  alt=""
+                  loading="lazy"
+                  className="aspect-[3/4] w-full object-cover transition duration-700 hover:scale-105"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Text cards 2x2 */}
+          <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2">
+            {items.map(({ n, key }, i) => (
+              <motion.div
+                key={key}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+              >
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-base font-bold text-background shadow-card">
                   {n}
                 </div>
-                <h3 className="mt-4 font-display text-lg font-semibold">
+                <h3 className="mt-5 font-display text-xl font-semibold">
                   {t(`why.${key}.title`)}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {t(`why.${key}.desc`)}
                 </p>
-              </div>
-            </motion.article>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
