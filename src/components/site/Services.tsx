@@ -21,25 +21,32 @@ export function Services() {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-glow">
             {t("services.eyebrow")}
           </p>
+          <h2 className="mt-3 font-display text-4xl font-bold sm:text-5xl text-gradient">
+            {t("services.title")}
+          </h2>
         </div>
       </div>
 
-      {/* Animated single-line marquee headline */}
-      <div className="relative mt-6 overflow-hidden">
-        <div className="flex w-max whitespace-nowrap animate-marquee gap-12 px-6">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <span
-              key={i}
-              className="font-display text-5xl font-bold sm:text-6xl md:text-7xl text-gradient"
-            >
-              {t("services.title")} ✦
-            </span>
-          ))}
+      {/* Animated single-line marquee of service names */}
+      <div className="relative mt-8 overflow-hidden border-y border-white/10 py-5">
+        <div className="flex w-max whitespace-nowrap animate-marquee gap-10 px-6">
+          {Array.from({ length: 3 }).flatMap((_, r) =>
+            services.map(({ id, Icon }, i) => (
+              <span
+                key={`${r}-${i}`}
+                className="inline-flex items-center gap-3 font-display text-2xl font-semibold sm:text-3xl text-foreground/80"
+              >
+                <Icon className="h-6 w-6 text-primary-glow" />
+                {t(`services.${id}.title`)}
+                <span className="text-primary-glow">✦</span>
+              </span>
+            ))
+          )}
         </div>
       </div>
 
       <div className="container mx-auto max-w-6xl px-6">
-        <p className="mx-auto mt-6 max-w-2xl text-center text-muted-foreground">
+        <p className="mx-auto mt-8 max-w-2xl text-center text-muted-foreground">
           {t("services.sub")}
         </p>
 
