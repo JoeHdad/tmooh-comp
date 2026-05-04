@@ -2,9 +2,13 @@ import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { Code2, Palette, Megaphone } from "lucide-react";
 import logo from "@/assets/tmooh-logo.png";
+import { useSiteSettings } from "@/lib/useSiteSettings";
 
 export function About() {
   const { t } = useI18n();
+  const { about } = useSiteSettings();
+  const title = about.title || t("about.title");
+  const body = about.body || t("about.body");
 
   const tags = [
     { key: "about.tag1", Icon: Code2, pos: "top-2 end-4" },
@@ -24,7 +28,7 @@ export function About() {
     <section id="about" className="relative py-24 sm:py-32">
       <div className="container mx-auto max-w-6xl px-6">
         <h2 className="text-center font-display text-4xl font-bold sm:text-5xl">
-          {t("about.title")}
+          {title}
         </h2>
 
         <div className="mt-16 grid items-center gap-12 lg:grid-cols-2">
@@ -35,7 +39,7 @@ export function About() {
             transition={{ duration: 0.6 }}
             className="text-lg leading-relaxed text-foreground/90 sm:text-xl"
           >
-            {t("about.body")}
+            {body}
           </motion.p>
 
           <motion.div

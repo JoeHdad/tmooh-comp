@@ -2,9 +2,14 @@ import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { useSiteSettings } from "@/lib/useSiteSettings";
 
 export function Hero() {
   const { t } = useI18n();
+  const { hero } = useSiteSettings();
+  const title1 = hero.title || t("hero.title1");
+  const title2 = hero.subtitle || t("hero.title2");
+  const ctaText = hero.cta || t("hero.cta");
 
   return (
     <section
@@ -37,8 +42,8 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.1 }}
           className="mt-8 font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl lg:text-[5.5rem]"
         >
-          <span className="block text-foreground">{t("hero.title1")}</span>
-          <span className="block text-gradient">{t("hero.title2")}</span>
+          <span className="block text-foreground">{title1}</span>
+          <span className="block text-gradient">{title2}</span>
         </motion.h1>
 
         <motion.p
@@ -60,7 +65,7 @@ export function Hero() {
             to="/contact"
             className="group inline-flex items-center gap-2 rounded-full bg-gradient-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition hover:scale-[1.02]"
           >
-            {t("hero.cta")}
+            {ctaText}
             <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
           <Link
