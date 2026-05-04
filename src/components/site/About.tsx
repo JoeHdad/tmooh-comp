@@ -54,40 +54,71 @@ export function About() {
           </motion.div>
         </div>
 
-        {/* Stats grid */}
-        <div className="mt-20 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            title={t("about.years")}
-            sub={t("about.yearsLabel")}
-            featured
-          />
-          <InfoCard title={t("about.vision")} body={t("about.visionDesc")} />
-          <InfoCard title={t("about.mission")} body={t("about.missionDesc")} />
-          <InfoCard title={t("about.teams")} body={t("about.teamsDesc")} />
+        {/* Stats strip */}
+        <div className="mt-20 overflow-hidden rounded-3xl border border-white/10 shadow-card">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4">
+            <YearsCell title={t("about.years")} sub={t("about.yearsLabel")} />
+            <InfoCell title={t("about.vision")} body={t("about.visionDesc")} />
+            <InfoCell title={t("about.mission")} body={t("about.missionDesc")} />
+            <TeamsCell title={t("about.teams")} body={t("about.teamsDesc")} />
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function StatCard({ title, sub, featured }: { title: string; sub: string; featured?: boolean }) {
+function YearsCell({ title, sub }: { title: string; sub: string }) {
   return (
-    <div
-      className={`rounded-3xl border border-white/10 p-6 text-center shadow-card ${
-        featured ? "bg-gradient-primary text-primary-foreground" : "bg-card"
-      }`}
-    >
-      <div className="font-display text-5xl font-bold">{title}</div>
-      <div className="mt-2 text-sm opacity-90">{sub}</div>
+    <div className="relative overflow-hidden border-b border-white/10 bg-background p-8 text-center sm:border-e sm:border-b-0">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-30"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(135deg, oklch(1 0 0 / 0.05) 0 1px, transparent 1px 14px)",
+        }}
+      />
+      <div className="relative flex h-full flex-col items-center justify-center">
+        <div className="font-display text-5xl font-bold text-gradient">{title}</div>
+        <div className="mt-2 text-sm text-muted-foreground">{sub}</div>
+      </div>
     </div>
   );
 }
 
-function InfoCard({ title, body }: { title: string; body: string }) {
+function InfoCell({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-card p-6 shadow-card">
-      <h3 className="font-display text-lg font-semibold">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
+    <div className="border-b border-white/10 bg-card p-8 text-center sm:border-e sm:[&:nth-child(even)]:border-b-0 lg:border-b-0">
+      <h3 className="font-display text-2xl font-bold">{title}</h3>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
     </div>
   );
 }
+
+function TeamsCell({ title, body }: { title: string; body: string }) {
+  const avatars = Array.from({ length: 7 });
+  const colors = [
+    "from-pink-500 to-rose-500",
+    "from-amber-400 to-orange-500",
+    "from-emerald-400 to-teal-500",
+    "from-sky-400 to-indigo-500",
+    "from-fuchsia-500 to-purple-600",
+    "from-yellow-400 to-amber-500",
+    "from-cyan-400 to-blue-500",
+  ];
+  return (
+    <div className="bg-card p-8 text-center">
+      <h3 className="font-display text-2xl font-bold">{title}</h3>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
+      <div className="mt-5 flex items-center justify-center -space-x-2 rtl:space-x-reverse">
+        {avatars.map((_, i) => (
+          <div
+            key={i}
+            className={`h-9 w-9 rounded-full border-2 border-card bg-gradient-to-br ${colors[i]} shadow`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
