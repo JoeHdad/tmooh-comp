@@ -98,9 +98,10 @@ export function CrudPage({
       payload[f.name] = v === "" ? null : v;
     }
     const isUpdate = !!editing.id;
+    const client = supabase as any;
     const res = isUpdate
-      ? await supabase.from(table).update(payload).eq("id", editing.id)
-      : await supabase.from(table).insert(payload);
+      ? await client.from(table).update(payload).eq("id", editing.id)
+      : await client.from(table).insert(payload);
     if (res.error) {
       toast.error(res.error.message);
       return;
