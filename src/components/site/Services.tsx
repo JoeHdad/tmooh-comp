@@ -1,5 +1,5 @@
 import { useI18n } from "@/lib/i18n";
-import { motion } from "framer-motion";
+
 import { BarChart3, Megaphone, Code2, Brush, Layers, Smartphone, Check } from "lucide-react";
 
 const services = [
