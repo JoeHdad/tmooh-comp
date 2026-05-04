@@ -1,6 +1,7 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { I18nProvider } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
+import { AnimationLayer } from "@/components/site/AnimationLayer";
 
 import appCss from "../styles.css?url";
 
@@ -79,6 +80,7 @@ function RootComponent() {
   return (
     <I18nProvider>
       <Outlet />
+      <AnimationLayer />
       <Toaster richColors position="top-center" />
     </I18nProvider>
   );

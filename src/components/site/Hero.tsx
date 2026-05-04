@@ -12,7 +12,7 @@ export function Hero() {
       className="relative flex min-h-screen items-center justify-center overflow-hidden pt-32 pb-20"
     >
       {/* Background glow */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-radial" aria-hidden />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-radial parallax" data-parallax="0.18" aria-hidden />
       <div className="pointer-events-none absolute inset-0 opacity-[0.04]" aria-hidden>
         <div className="absolute inset-0" style={{
           backgroundImage: "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
