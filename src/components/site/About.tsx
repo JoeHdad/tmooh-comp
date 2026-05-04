@@ -12,6 +12,14 @@ export function About() {
     { key: "about.tag3", Icon: Megaphone, pos: "bottom-16 start-2" },
   ];
 
+  // Ascending staircase heights (shortest -> tallest)
+  const cells = [
+    { kind: "years", height: "h-44 sm:h-48", delay: 0 },
+    { kind: "vision", height: "h-56 sm:h-64", delay: 0.1 },
+    { kind: "mission", height: "h-64 sm:h-80", delay: 0.2 },
+    { kind: "teams", height: "h-72 sm:h-96", delay: 0.3 },
+  ] as const;
+
   return (
     <section id="about" className="relative py-24 sm:py-32">
       <div className="container mx-auto max-w-6xl px-6">
@@ -37,11 +45,9 @@ export function About() {
             transition={{ duration: 0.6 }}
             className="relative mx-auto h-80 w-full max-w-md"
           >
-            {/* Logo */}
             <div className="absolute inset-0 flex items-center justify-center">
               <img src={logo} alt="TMOOH" className="h-64 w-auto" />
             </div>
-            {/* Floating tags */}
             {tags.map(({ key, Icon, pos }) => (
               <div
                 key={key}
@@ -54,13 +60,33 @@ export function About() {
           </motion.div>
         </div>
 
-        {/* Stats strip */}
-        <div className="mt-20 overflow-hidden rounded-3xl border border-white/10 shadow-card">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4">
-            <YearsCell title={t("about.years")} sub={t("about.yearsLabel")} />
-            <InfoCell title={t("about.vision")} body={t("about.visionDesc")} />
-            <InfoCell title={t("about.mission")} body={t("about.missionDesc")} />
-            <TeamsCell title={t("about.teams")} body={t("about.teamsDesc")} />
+        {/* Staircase strip */}
+        <div className="mt-20 rounded-3xl border border-primary/40 p-3 sm:p-4">
+          <div className="grid grid-cols-2 items-end gap-3 sm:gap-4 lg:grid-cols-4">
+            {cells.map((c) => (
+              <motion.div
+                key={c.kind}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: c.delay, ease: "easeOut" }}
+                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                className={`${c.height}`}
+              >
+                {c.kind === "years" && (
+                  <YearsCell title={t("about.years")} sub={t("about.yearsLabel")} />
+                )}
+                {c.kind === "vision" && (
+                  <InfoCell title={t("about.vision")} body={t("about.visionDesc")} />
+                )}
+                {c.kind === "mission" && (
+                  <InfoCell title={t("about.mission")} body={t("about.missionDesc")} />
+                )}
+                {c.kind === "teams" && (
+                  <TeamsCell title={t("about.teams")} body={t("about.teamsDesc")} />
+                )}
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
@@ -70,16 +96,18 @@ export function About() {
 
 function YearsCell({ title, sub }: { title: string; sub: string }) {
   return (
-    <div className="relative overflow-hidden border-b border-white/10 bg-background p-8 text-center sm:border-e sm:border-b-0">
+    <div className="group relative h-full overflow-hidden rounded-2xl bg-background p-6 text-center transition-shadow duration-300 hover:shadow-card">
       <div
-        className="pointer-events-none absolute inset-0 opacity-30"
+        className="pointer-events-none absolute inset-0 opacity-30 transition-opacity duration-500 group-hover:opacity-50"
         style={{
           backgroundImage:
-            "repeating-linear-gradient(135deg, oklch(1 0 0 / 0.05) 0 1px, transparent 1px 14px)",
+            "repeating-linear-gradient(135deg, oklch(1 0 0 / 0.08) 0 1px, transparent 1px 14px)",
         }}
       />
       <div className="relative flex h-full flex-col items-center justify-center">
-        <div className="font-display text-5xl font-bold text-gradient">{title}</div>
+        <div className="font-display text-5xl font-bold text-gradient transition-transform duration-300 group-hover:scale-110">
+          {title}
+        </div>
         <div className="mt-2 text-sm text-muted-foreground">{sub}</div>
       </div>
     </div>
@@ -88,15 +116,19 @@ function YearsCell({ title, sub }: { title: string; sub: string }) {
 
 function InfoCell({ title, body }: { title: string; body: string }) {
   return (
-    <div className="border-b border-white/10 bg-card p-8 text-center sm:border-e sm:[&:nth-child(even)]:border-b-0 lg:border-b-0">
-      <h3 className="font-display text-2xl font-bold">{title}</h3>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
+    <div className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-card p-6 text-center transition-all duration-300 hover:border-primary/40 hover:shadow-card">
+      <div className="pointer-events-none absolute inset-x-0 -top-1/2 h-full bg-gradient-to-b from-primary/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="relative flex h-full flex-col items-center justify-center">
+        <h3 className="font-display text-2xl font-bold transition-transform duration-300 group-hover:-translate-y-1">
+          {title}
+        </h3>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
+      </div>
     </div>
   );
 }
 
 function TeamsCell({ title, body }: { title: string; body: string }) {
-  const avatars = Array.from({ length: 7 });
   const colors = [
     "from-pink-500 to-rose-500",
     "from-amber-400 to-orange-500",
@@ -107,18 +139,26 @@ function TeamsCell({ title, body }: { title: string; body: string }) {
     "from-cyan-400 to-blue-500",
   ];
   return (
-    <div className="bg-card p-8 text-center">
-      <h3 className="font-display text-2xl font-bold">{title}</h3>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
-      <div className="mt-5 flex items-center justify-center -space-x-2 rtl:space-x-reverse">
-        {avatars.map((_, i) => (
-          <div
-            key={i}
-            className={`h-9 w-9 rounded-full border-2 border-card bg-gradient-to-br ${colors[i]} shadow`}
-          />
-        ))}
+    <div className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-card p-6 text-center transition-all duration-300 hover:border-primary/40 hover:shadow-card">
+      <div className="relative flex h-full flex-col items-center justify-center">
+        <h3 className="font-display text-2xl font-bold transition-transform duration-300 group-hover:-translate-y-1">
+          {title}
+        </h3>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
+        <div className="mt-5 flex items-center justify-center -space-x-2 rtl:space-x-reverse">
+          {colors.map((c, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.5, y: 10 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.4 + i * 0.08, type: "spring", stiffness: 200 }}
+              whileHover={{ y: -4, scale: 1.15, zIndex: 10 }}
+              className={`h-9 w-9 rounded-full border-2 border-card bg-gradient-to-br ${c} shadow`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
 }
-
