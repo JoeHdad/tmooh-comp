@@ -131,6 +131,9 @@
 .animate-marquee {
   animation: marquee 30s linear infinite;
 }
+.marquee-track {
+  direction: ltr;
+}
 [dir="rtl"] .animate-marquee {
   animation-direction: reverse;
 }
