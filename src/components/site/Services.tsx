@@ -2,7 +2,16 @@ import { useI18n } from "@/lib/i18n";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import * as Lucide from "lucide-react";
-import { BarChart3, Megaphone, Code2, Brush, Layers, Smartphone, Check, type LucideIcon } from "lucide-react";
+import {
+  BarChart3,
+  Megaphone,
+  Code2,
+  Brush,
+  Layers,
+  Smartphone,
+  Check,
+  type LucideIcon,
+} from "lucide-react";
 
 const fallback = [
   { id: "s1", Icon: BarChart3 },
@@ -36,7 +45,8 @@ export function Services() {
   const useDb = db && db.length > 0;
   const items = useDb
     ? db!.map((s) => {
-        const Icon = (s.icon && (Lucide as unknown as Record<string, LucideIcon>)[s.icon]) || Layers;
+        const Icon =
+          (s.icon && (Lucide as unknown as Record<string, LucideIcon>)[s.icon]) || Layers;
         return {
           id: s.id,
           Icon,
@@ -71,7 +81,9 @@ export function Services() {
           </div>
           <h3 className="font-display text-xl font-semibold whitespace-normal">{item.title}</h3>
           {item.desc && (
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground whitespace-normal">{item.desc}</p>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground whitespace-normal">
+              {item.desc}
+            </p>
           )}
           {item.features.length > 0 && (
             <>
@@ -106,7 +118,6 @@ export function Services() {
           </h2>
         </div>
       </div>
-
 
       <div className="container mx-auto max-w-6xl px-6">
         <p className="mx-auto mt-8 max-w-2xl text-center text-muted-foreground">
