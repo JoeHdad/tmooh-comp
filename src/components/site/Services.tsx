@@ -2,7 +2,7 @@ import { useI18n } from "@/lib/i18n";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import * as Lucide from "lucide-react";
-import { BarChart3, Megaphone, Code2, Brush, Layers, Smartphone, Check } from "lucide-react";
+import { BarChart3, Megaphone, Code2, Brush, Layers, Smartphone, Check, type LucideIcon } from "lucide-react";
 
 const fallback = [
   { id: "s1", Icon: BarChart3 },
@@ -36,8 +36,7 @@ export function Services() {
   const useDb = db && db.length > 0;
   const items = useDb
     ? db!.map((s) => {
-        const Icon =
-          (s.icon && (Lucide as any)[s.icon]) || Layers;
+        const Icon = (s.icon && (Lucide as Record<string, LucideIcon>)[s.icon]) || Layers;
         return {
           id: s.id,
           Icon,
@@ -71,9 +70,7 @@ export function Services() {
             <Icon className="h-6 w-6" />
           </div>
           <h3 className="font-display text-xl font-semibold whitespace-normal">{item.title}</h3>
-          {item.desc && (
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground whitespace-normal">{item.desc}</p>
-          )}
+          {item.desc && <p className="mt-2 text-sm leading-relaxed text-muted-foreground whitespace-normal">{item.desc}</p>}
           {item.features.length > 0 && (
             <>
               <div className="my-5 h-px bg-white/10" />
