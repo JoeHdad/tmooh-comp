@@ -46,6 +46,12 @@ export const Route = createRootRoute({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "TMOOH — Smart Digital Solutions" },
+      { name: "description", content: "A web application that guides users through sequential instructions and displays company information." },
+      { property: "og:description", content: "A web application that guides users through sequential instructions and displays company information." },
+      { name: "twitter:description", content: "A web application that guides users through sequential instructions and displays company information." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/rMNoDwZGWKfz026JSSsC0b487v42/social-images/social-1777967158011-WhatsApp_Image_2026-05-03_at_9.59.07_PM.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/rMNoDwZGWKfz026JSSsC0b487v42/social-images/social-1777967158011-WhatsApp_Image_2026-05-03_at_9.59.07_PM.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
