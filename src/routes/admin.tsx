@@ -12,6 +12,7 @@ import {
   Wrench,
   MessagesSquare,
   Settings,
+  KeyRound,
   LogOut,
   ShieldAlert,
 } from "lucide-react";
@@ -38,6 +39,7 @@ const nav: NavItem[] = [
   { to: "/admin/services", label: "Services", icon: Wrench },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessagesSquare },
   { to: "/admin/settings", label: "Site Settings", icon: Settings },
+  { to: "/admin/password", label: "Change Password", icon: KeyRound },
 ];
 
 function AdminLayout() {
