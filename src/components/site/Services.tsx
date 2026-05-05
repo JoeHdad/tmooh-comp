@@ -75,7 +75,7 @@ export function Services() {
       </div>
 
       {/* Single-line animated marquee of service cards */}
-      <div className="relative mt-16 overflow-hidden">
+      <div dir="ltr" className="relative mt-16 overflow-hidden">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
         <div className="marquee-track flex w-max animate-marquee gap-5 px-6">
@@ -84,7 +84,8 @@ export function Services() {
             return (
               <div
                 key={`${item.id}-${i}`}
-                className="group relative w-[340px] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-card p-7 shadow-card transition hover:border-primary/40 hover:shadow-glow hover-lift"
+                dir="auto"
+                className="group relative w-[min(340px,calc(100vw-48px))] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-card p-7 shadow-card transition hover:border-primary/40 hover:shadow-glow hover-lift"
               >
                 <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl opacity-0 transition group-hover:opacity-100" />
                 <div className="relative">
