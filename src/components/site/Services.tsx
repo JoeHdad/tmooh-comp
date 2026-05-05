@@ -54,6 +54,44 @@ export function Services() {
         features: ["f1", "f2", "f3"].map((k) => t(`services.${f.id}.${k}`)),
       }));
 
+  const renderCard = (item: (typeof items)[number], i: number, marquee = false) => {
+    const Icon = item.Icon;
+
+    return (
+      <div
+        key={`${item.id}-${i}${marquee ? "-marquee" : ""}`}
+        dir="auto"
+        className={`group relative shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-card p-7 shadow-card transition hover:border-primary/40 hover:shadow-glow hover-lift ${
+          marquee ? "w-[min(340px,calc(100vw-48px))]" : "w-full"
+        }`}
+      >
+        <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl opacity-0 transition group-hover:opacity-100" />
+        <div className="relative">
+          <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow">
+            <Icon className="h-6 w-6" />
+          </div>
+          <h3 className="font-display text-xl font-semibold whitespace-normal">{item.title}</h3>
+          {item.desc && (
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground whitespace-normal">{item.desc}</p>
+          )}
+          {item.features.length > 0 && (
+            <>
+              <div className="my-5 h-px bg-white/10" />
+              <ul className="space-y-2">
+                {item.features.map((f, idx) => (
+                  <li key={idx} className="flex items-center gap-2 text-sm text-foreground/80 whitespace-normal">
+                    <Check className="h-3.5 w-3.5 shrink-0 text-primary-glow" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section id="services" className="relative py-24 sm:py-32">
       <div className="container mx-auto max-w-6xl px-6">
@@ -74,45 +112,16 @@ export function Services() {
         </p>
       </div>
 
+      <div className="container mx-auto mt-12 grid max-w-6xl gap-5 px-6 sm:hidden">
+        {items.map((item, i) => renderCard(item, i))}
+      </div>
+
       {/* Single-line animated marquee of service cards */}
-      <div dir="ltr" className="relative mt-16 overflow-hidden">
+      <div dir="ltr" className="relative mt-16 hidden overflow-hidden sm:block">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
         <div className="marquee-track flex w-max animate-marquee gap-5 px-6">
-          {[...items, ...items].map((item, i) => {
-            const Icon = item.Icon;
-            return (
-              <div
-                key={`${item.id}-${i}`}
-                dir="auto"
-                className="group relative w-[min(340px,calc(100vw-48px))] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-card p-7 shadow-card transition hover:border-primary/40 hover:shadow-glow hover-lift"
-              >
-                <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl opacity-0 transition group-hover:opacity-100" />
-                <div className="relative">
-                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow">
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="font-display text-xl font-semibold whitespace-normal">{item.title}</h3>
-                  {item.desc && (
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground whitespace-normal">{item.desc}</p>
-                  )}
-                  {item.features.length > 0 && (
-                    <>
-                      <div className="my-5 h-px bg-white/10" />
-                      <ul className="space-y-2">
-                        {item.features.map((f, idx) => (
-                          <li key={idx} className="flex items-center gap-2 text-sm text-foreground/80 whitespace-normal">
-                            <Check className="h-3.5 w-3.5 shrink-0 text-primary-glow" />
-                            {f}
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+          {[...items, ...items].map((item, i) => renderCard(item, i, true))}
         </div>
       </div>
     </section>
