@@ -36,7 +36,7 @@ export function Services() {
   const useDb = db && db.length > 0;
   const items = useDb
     ? db!.map((s) => {
-        const Icon = (s.icon && (Lucide as Record<string, LucideIcon>)[s.icon]) || Layers;
+        const Icon = (s.icon && (Lucide as unknown as Record<string, LucideIcon>)[s.icon]) || Layers;
         return {
           id: s.id,
           Icon,
@@ -70,13 +70,18 @@ export function Services() {
             <Icon className="h-6 w-6" />
           </div>
           <h3 className="font-display text-xl font-semibold whitespace-normal">{item.title}</h3>
-          {item.desc && <p className="mt-2 text-sm leading-relaxed text-muted-foreground whitespace-normal">{item.desc}</p>}
+          {item.desc && (
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground whitespace-normal">{item.desc}</p>
+          )}
           {item.features.length > 0 && (
             <>
               <div className="my-5 h-px bg-white/10" />
               <ul className="space-y-2">
                 {item.features.map((f, idx) => (
-                  <li key={idx} className="flex items-center gap-2 text-sm text-foreground/80 whitespace-normal">
+                  <li
+                    key={idx}
+                    className="flex items-center gap-2 text-sm text-foreground/80 whitespace-normal"
+                  >
                     <Check className="h-3.5 w-3.5 shrink-0 text-primary-glow" />
                     {f}
                   </li>
