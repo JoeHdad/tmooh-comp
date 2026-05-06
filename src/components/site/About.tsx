@@ -149,19 +149,6 @@ function TeamsCell({ title, body }: { title: string; body: string }) {
           {title}
         </h3>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
-        <div className="mt-5 flex items-center justify-center -space-x-2 rtl:space-x-reverse">
-          {colors.map((c, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.5, y: 10 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.4 + i * 0.08, type: "spring", stiffness: 200 }}
-              whileHover={{ y: -4, scale: 1.15, zIndex: 10 }}
-              className={`h-9 w-9 rounded-full border-2 border-card bg-gradient-to-br ${c} shadow`}
-            />
-          ))}
-        </div>
       </div>
     </div>
   );
