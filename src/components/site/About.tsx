@@ -1,7 +1,7 @@
 import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { Code2, Palette, Megaphone } from "lucide-react";
-import logo from "@/assets/tmooh-logo.png";
+import logo from "@/assets/tmooh-logo.svg";
 import { useSiteSettings } from "@/lib/useSiteSettings";
 
 export function About() {
