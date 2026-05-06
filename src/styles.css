@@ -33,8 +33,9 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --font-display: "Space Grotesk", "Tajawal", system-ui, sans-serif;
-  --font-body: "Inter", "Tajawal", system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Al Jazeera Arabic", "Tajawal", system-ui, sans-serif;
+  --font-body: "Inter", "Al Jazeera Arabic", "Tajawal", system-ui, sans-serif;
+  --font-arabic: "Al Jazeera Arabic", "Tajawal", system-ui, sans-serif;
 }
 
 :root {
@@ -93,8 +94,9 @@
     letter-spacing: -0.02em;
   }
 
-  [dir="rtl"] body {
-    font-family: "Tajawal", var(--font-body);
+  [dir="rtl"] body,
+  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6 {
+    font-family: "Al Jazeera Arabic", "Tajawal", system-ui, sans-serif;
   }
 }
 
