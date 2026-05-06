@@ -1,5 +1,5 @@
 import { useI18n } from "@/lib/i18n";
-import logo from "@/assets/tmooh-logo.png";
+import logo from "@/assets/tmooh-logo.svg";
 
 export function Footer() {
   const { t } = useI18n();

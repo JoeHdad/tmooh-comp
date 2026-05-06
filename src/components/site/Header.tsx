@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/tmooh-logo.png";
+import logo from "@/assets/tmooh-logo.svg";
 
 const navItems = [
   { key: "nav.home", to: "/" as const },
