@@ -11,6 +11,7 @@ import {
   Briefcase,
   Wrench,
   MessagesSquare,
+  Inbox,
   Settings,
   KeyRound,
   LogOut,
@@ -35,6 +36,7 @@ type NavItem = {
 };
 const nav: NavItem[] = [
   { to: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
+  { to: "/admin/messages", label: "Messages", icon: Inbox },
   { to: "/admin/portfolio", label: "Portfolio", icon: Briefcase },
   { to: "/admin/services", label: "Services", icon: Wrench },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessagesSquare },
