@@ -26,7 +26,7 @@ export function WhyUs() {
           </h2>
         </div>
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-2 lg:items-center">
+        <div className="mt-14 grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
           {/* Image collage */}
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-4">
