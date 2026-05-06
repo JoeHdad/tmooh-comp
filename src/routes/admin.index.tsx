@@ -1,31 +1,34 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Briefcase, Wrench, MessagesSquare } from "lucide-react";
+import { Briefcase, Wrench, MessagesSquare, Inbox } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
   component: Overview,
 });
 
 function Overview() {
-  const [counts, setCounts] = useState({ portfolio: 0, services: 0, testimonials: 0 });
+  const [counts, setCounts] = useState({ portfolio: 0, services: 0, testimonials: 0, messages: 0 });
 
   useEffect(() => {
     (async () => {
-      const [p, s, t] = await Promise.all([
+      const [p, s, t, m] = await Promise.all([
         supabase.from("portfolio_projects").select("*", { count: "exact", head: true }),
         supabase.from("services").select("*", { count: "exact", head: true }),
         supabase.from("testimonials").select("*", { count: "exact", head: true }),
+        supabase.from("contact_messages").select("*", { count: "exact", head: true }),
       ]);
       setCounts({
         portfolio: p.count ?? 0,
         services: s.count ?? 0,
         testimonials: t.count ?? 0,
+        messages: m.count ?? 0,
       });
     })();
   }, []);
 
   const cards = [
+    { label: "Messages", value: counts.messages, icon: Inbox },
     { label: "Projects", value: counts.portfolio, icon: Briefcase },
     { label: "Services", value: counts.services, icon: Wrench },
     { label: "Testimonials", value: counts.testimonials, icon: MessagesSquare },
@@ -37,7 +40,7 @@ function Overview() {
       <p className="mb-6 text-sm text-muted-foreground">
         Manage all of your website content from here.
       </p>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c) => (
           <div
             key={c.label}
