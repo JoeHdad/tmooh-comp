@@ -91,6 +91,7 @@ const en: Dict = {
   "contact.success": "Message sent — we'll get back to you soon!",
   "contact.error": "Something went wrong. Please try again.",
 
+  "footer.tagline": "We don't just build websites — we craft digital experiences that inspire growth.",
   "footer.rights": "All rights reserved.",
 
   "why.eyebrow": "Why TMOOH",
