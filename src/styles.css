@@ -3,6 +3,28 @@
 @import "tw-animate-css";
 @import "./lib/animations.css";
 
+@font-face {
+  font-family: "Al Jazeera Arabic";
+  src: url("/fonts/AlJazeeraArabic-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Al Jazeera Arabic";
+  src: url("/fonts/AlJazeeraArabic-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Al Jazeera Arabic";
+  src: url("/fonts/AlJazeeraArabic-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
