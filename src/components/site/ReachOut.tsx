@@ -2,7 +2,7 @@ import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { Mail, MessageCircle } from "lucide-react";
 
-const EMAIL = "tmooh.digital@gmail.com";
+const EMAIL = "tmooh.solutions@gmail.com";
 const WHATSAPP = "+970595172603";
 const WHATSAPP_LINK = "https://wa.me/970595172603";
 
