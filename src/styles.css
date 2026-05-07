@@ -117,8 +117,22 @@
   }
 
   [dir="rtl"] body,
-  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6 {
-    font-family: "Al Jazeera Arabic", "Tajawal", system-ui, sans-serif;
+  [dir="rtl"] p,
+  [dir="rtl"] a,
+  [dir="rtl"] span,
+  [dir="rtl"] li,
+  [dir="rtl"] button,
+  [dir="rtl"] input,
+  [dir="rtl"] textarea,
+  [dir="rtl"] select,
+  [dir="rtl"] label,
+  [dir="rtl"] blockquote,
+  [dir="rtl"] th,
+  [dir="rtl"] td,
+  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+  [dir="rtl"] .font-display,
+  [dir="rtl"] .font-body {
+    font-family: "Al Jazeera Arabic", "Tajawal", system-ui, sans-serif !important;
   }
 }
 
