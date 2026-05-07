@@ -7,6 +7,9 @@ export function Footer() {
     <footer className="relative border-t border-white/10 py-12">
       <div className="container mx-auto max-w-6xl px-6 text-center">
         <img src={logo} alt="TMOOH" className="mx-auto h-24 w-auto" />
+        <p className="mt-6 font-display text-lg italic text-foreground/90 sm:text-xl">
+          {t("footer.tagline")}
+        </p>
         <p className="mt-4 text-sm text-muted-foreground">
           © {new Date().getFullYear()} TMOOH. {t("footer.rights")}
         </p>
