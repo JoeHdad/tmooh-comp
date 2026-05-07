@@ -2,6 +2,7 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 import { I18nProvider } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
 import { AnimationLayer } from "@/components/site/AnimationLayer";
+import { useFontCheck } from "@/lib/useFontCheck";
 
 import appCss from "../styles.css?url";
 
@@ -83,6 +84,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  useFontCheck();
   return (
     <I18nProvider>
       <Outlet />
