@@ -61,9 +61,9 @@ export const Route = createRootRoute({
       { rel: "preconnect", href: "https://ralzzfemcjsbbsrhnffa.supabase.co" },
       {
         rel: "preload",
-        href: "/fonts/AlJazeeraArabic-Bold.ttf",
+        href: "/fonts/AlJazeeraArabic-Bold.woff2",
         as: "font",
-        type: "font/ttf",
+        type: "font/woff2",
         crossOrigin: "anonymous",
       },
       {
