@@ -100,7 +100,7 @@ export function About() {
 
 function YearsCell({ title, sub }: { title: string; sub: string }) {
   return (
-    <div className="group relative h-full overflow-hidden rounded-2xl bg-background p-6 text-center transition-shadow duration-300 hover:shadow-card">
+    <div className="group relative h-full overflow-hidden rounded-2xl bg-gradient-primary p-6 text-center shadow-glow transition-shadow duration-300 hover:shadow-card">
       <div
         className="pointer-events-none absolute inset-0 opacity-30 transition-opacity duration-500 group-hover:opacity-50"
         style={{
