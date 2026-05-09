@@ -13,7 +13,7 @@
   // Deploy command: wrangler deploy --config dist/server/wrangler.json
   // ─────────────────────────────────────────────────────────────────────────
 
-  "name": "tanstack-start-app",
+  "name": "tmooh",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@tanstack/react-start/server-entry"
