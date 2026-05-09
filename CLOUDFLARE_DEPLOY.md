@@ -6,9 +6,10 @@
 
 1. ادخل إلى [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Workers** → **Import a repository**.
 2. اختر مستودع GitHub الخاص بالمشروع وفوّض Cloudflare.
-3. إعدادات البناء (تُكتَشف تلقائياً من `wrangler.jsonc`):
-   - **Build command:** `bun install && bun run build`
-   - **Deploy command:** `bunx wrangler deploy` (افتراضي)
+3. إعدادات البناء:
+   - **Build command:** `npm install && npm run build`
+     > ⚠️ لا تستخدم `bun install --frozen-lockfile` — نسخة bun على Cloudflare قديمة وقد تفشل مع لوكفايل المشروع. استخدم npm أو `bun install --no-frozen-lockfile`.
+   - **Deploy command:** `npx wrangler deploy` (افتراضي)
    - **Root directory:** `/`
 4. أضف متغيرات البيئة في **Settings → Variables and Secrets**:
 
