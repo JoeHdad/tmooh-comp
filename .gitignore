@@ -20,6 +20,9 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Bun binary lockfile (replaced by bun.lock text format)
+bun.lockb
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

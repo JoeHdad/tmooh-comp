@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "deploy": "bun run build && wrangler deploy",
+    "deploy": "npm run build && wrangler deploy --config dist/server/wrangler.json",
+    "cf:deploy": "wrangler deploy --config dist/server/wrangler.json",
     "cf:tail": "wrangler tail"
   },
   "dependencies": {

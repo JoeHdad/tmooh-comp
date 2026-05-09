@@ -1,7 +1,20 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // NOTE: This file is used by `vite dev` (wrangler dev) via @cloudflare/vite-plugin.
+  // The plugin resolves "main" as the TanStack Start server entry at dev-time.
+  //
+  // For DEPLOYMENT, the build produces dist/server/wrangler.json which has:
+  //   "main": "index.js"          (the compiled Worker bundle)
+  //   "assets": {"directory": "../client"}  (static files)
+  //   "no_bundle": true           (already bundled by Vite)
+  //
+  // Deploy command: wrangler deploy --config dist/server/wrangler.json
+  // ─────────────────────────────────────────────────────────────────────────
+
   "name": "tanstack-start-app",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry",
+  "main": "@tanstack/react-start/server-entry"
 }
