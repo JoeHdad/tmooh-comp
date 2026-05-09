@@ -1,0 +1,12 @@
+[build]
+  command = "bun run build"
+  publish = ".output/public"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA fallback — يضمن عمل التنقل بين الصفحات بعد التحديث
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
