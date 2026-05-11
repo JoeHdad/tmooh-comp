@@ -181,6 +181,24 @@
   }
 }
 
+/* Service card — inset box-shadow border (immune to clip/transform) */
+.svc-card {
+  /* inset border 1px white/10  +  card depth shadow */
+  box-shadow:
+    inset 0 0 0 1px oklch(1 0 0 / 0.10),
+    0 10px 40px -15px oklch(0 0 0 / 0.60);
+  transition:
+    box-shadow 220ms ease,
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.svc-card:hover {
+  /* inset border purple  +  card shadow  +  glow */
+  box-shadow:
+    inset 0 0 0 1px oklch(0.62 0.20 290 / 0.55),
+    0 10px 40px -15px oklch(0 0 0 / 0.60),
+    0 20px 60px -20px oklch(0.62 0.20 290 / 0.45);
+}
+
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
