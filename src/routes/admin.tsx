@@ -17,6 +17,7 @@ import {
   LogOut,
   ShieldAlert,
 } from "lucide-react";
+import logo from "@/assets/tmooh-logo.svg";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -77,9 +78,14 @@ function AdminLayout() {
   return (
     <div className="flex min-h-screen bg-background text-foreground">
       <aside className="hidden w-64 shrink-0 border-e border-white/10 bg-card/50 p-4 md:block">
-        <div className="mb-6 px-2">
-          <h1 className="text-lg font-bold">Admin Panel</h1>
-          <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+        <div className="mb-6 px-2 flex flex-col gap-4">
+          <Link to="/">
+            <img src={logo} alt="TMOOH" className="h-8 w-auto" />
+          </Link>
+          <div>
+            <h1 className="text-sm font-bold opacity-70 uppercase tracking-wider">Admin Panel</h1>
+            <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+          </div>
         </div>
         <nav className="space-y-1">
           {nav.map((item) => (
@@ -108,7 +114,10 @@ function AdminLayout() {
       {/* Mobile top nav */}
       <div className="md:hidden fixed top-0 inset-x-0 z-40 border-b border-white/10 bg-background/95 backdrop-blur">
         <div className="flex items-center justify-between px-4 py-3">
-          <h1 className="text-base font-bold">Admin</h1>
+          <Link to="/">
+            <img src={logo} alt="TMOOH" className="h-6 w-auto" />
+          </Link>
+          <h1 className="text-sm font-bold">Admin</h1>
           <Button variant="outline" size="sm" onClick={signOut}>
             <LogOut className="h-4 w-4" />
           </Button>
@@ -157,6 +166,9 @@ function LoginScreen() {
         className="w-full max-w-sm rounded-2xl border border-white/10 bg-card p-8 shadow-card"
         key={loc.pathname}
       >
+        <div className="mb-6 flex justify-center">
+          <img src={logo} alt="TMOOH" className="h-16 w-auto" />
+        </div>
         <h1 className="mb-1 text-2xl font-bold">Admin Login</h1>
         <p className="mb-6 text-sm text-muted-foreground">
           Sign in to manage your site content.
