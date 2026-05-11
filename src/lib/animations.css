@@ -94,7 +94,7 @@
   will-change: transform;
 }
 .hover-lift:hover {
-  transform: translate3d(0, -4px, 0) scale(1.01);
+  transform: translate3d(0, -6px, 0);
   box-shadow: 0 18px 40px -18px oklch(0 0 0 / 0.55);
 }
 

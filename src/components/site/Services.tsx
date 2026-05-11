@@ -70,11 +70,13 @@ export function Services() {
       <div
         key={`${item.id}-${i}${marquee ? "-marquee" : ""}`}
         dir="auto"
-        className={`group relative shrink-0 overflow-hidden rounded-3xl border-inset after:border-white/10 group-hover:after:border-primary/40 bg-card p-7 shadow-card transition hover:shadow-glow hover-lift ${
+        className={`group relative shrink-0 rounded-3xl border-inset after:border-white/10 group-hover:after:border-primary/40 bg-card p-7 shadow-card transition hover:shadow-glow hover-lift ${
           marquee ? "w-[min(340px,calc(100vw-48px))]" : "w-full"
         }`}
       >
-        <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl opacity-0 transition group-hover:opacity-100" />
+        <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
+          <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl opacity-0 transition group-hover:opacity-100" />
+        </div>
         <div className="relative">
           <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow">
             <Icon className="h-6 w-6" />
