@@ -70,7 +70,7 @@ export function Services() {
       <div
         key={`${item.id}-${i}${marquee ? "-marquee" : ""}`}
         dir="auto"
-        className={`group relative shrink-0 overflow-hidden rounded-3xl ring-1 ring-white/10 ring-inset bg-card p-7 shadow-card transition hover:ring-primary/40 hover:shadow-glow hover-lift ${
+        className={`group relative shrink-0 overflow-hidden rounded-3xl border-inset after:border-white/10 group-hover:after:border-primary/40 bg-card p-7 shadow-card transition hover:shadow-glow hover-lift ${
           marquee ? "w-[min(340px,calc(100vw-48px))]" : "w-full"
         }`}
       >
