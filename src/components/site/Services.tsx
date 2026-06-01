@@ -3,23 +3,21 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import * as Lucide from "lucide-react";
 import {
-  BarChart3,
   Megaphone,
   Code2,
-  Brush,
   Layers,
   Smartphone,
+  Cpu,
   Check,
   type LucideIcon,
 } from "lucide-react";
 
 const fallback = [
-  { id: "s1", Icon: BarChart3 },
-  { id: "s2", Icon: Megaphone },
-  { id: "s3", Icon: Code2 },
-  { id: "s4", Icon: Brush },
-  { id: "s5", Icon: Layers },
-  { id: "s6", Icon: Smartphone },
+  { id: "s1", Icon: Smartphone },
+  { id: "s2", Icon: Layers },
+  { id: "s3", Icon: Cpu },
+  { id: "s4", Icon: Code2 },
+  { id: "s5", Icon: Megaphone },
 ];
 
 type DbService = {
@@ -60,7 +58,7 @@ export function Services() {
         Icon: f.Icon,
         title: t(`services.${f.id}.title`),
         desc: t(`services.${f.id}.desc`),
-        features: ["f1", "f2", "f3"].map((k) => t(`services.${f.id}.${k}`)),
+        features: [] as string[],
       }));
 
   const renderCard = (item: (typeof items)[number], i: number, marquee = false) => {
