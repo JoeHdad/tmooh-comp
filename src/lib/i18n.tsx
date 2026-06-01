@@ -13,9 +13,9 @@ const en: Dict = {
   "nav.cta": "Start Your Project",
 
   "hero.tag": "Smart Digital Solutions",
-  "hero.title1": "We don't just build.",
-  "hero.title2": "We launch brands.",
-  "hero.sub": "From concept to launch — fast, smart, and built to scale.",
+  "hero.title1": "Professional Software Solutions",
+  "hero.title2": "That Transform Your Digital Experience",
+  "hero.sub": "Complete digital services: web development, mobile apps, professional UI/UX design, and effective digital marketing. With 10+ years of expertise, we turn your ideas into integrated solutions that deliver real results.",
   "hero.cta": "Start Your Project",
   "hero.cta2": "See Our Work",
 
@@ -144,9 +144,9 @@ const ar: Dict = {
   "nav.cta": "ابدأ مشروعك",
 
   "hero.tag": "حلول رقمية ذكية",
-  "hero.title1": "لا نبني فقط.",
-  "hero.title2": "نُطلق العلامات التجارية.",
-  "hero.sub": "من الفكرة إلى الإطلاق — بسرعة وذكاء وقابلية للنمو.",
+  "hero.title1": "حلول برمجية احترافية",
+  "hero.title2": "تغير تجربتك الرقمية بالكامل",
+  "hero.sub": "خدمات رقمية متكاملة تشمل: تطوير المواقع، تطبيقات الهواتف، تصميم تجربة وواجهة المستخدم الاحترافية، والتسويق الرقمي الفعال. بخبرة تفوق 10 سنوات، نحول أفكارك إلى حلول متكاملة تحقق نتائج حقيقية.",
   "hero.cta": "ابدأ مشروعك",
   "hero.cta2": "شاهد أعمالنا",
 

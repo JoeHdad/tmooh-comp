@@ -70,6 +70,24 @@ export function Hero() {
             {t("hero.cta2")}
           </Link>
         </motion.div>
+
+        {/* Elegant mockup image */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          className="relative mx-auto mt-16 max-w-3xl overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-1.5 shadow-2xl backdrop-blur-sm"
+        >
+          <div className="absolute -inset-2 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 opacity-20 blur-xl" aria-hidden />
+          <img
+            src="/hero_mockup.png"
+            alt="Tmooh Solutions Mockup"
+            className="relative w-full rounded-xl border border-white/10 object-cover shadow-2xl transition duration-500 hover:scale-[1.01]"
+            loading="lazy"
+            width={800}
+            height={600}
+          />
+        </motion.div>
       </div>
 
       {/* Bottom fade */}

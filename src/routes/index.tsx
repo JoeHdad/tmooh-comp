@@ -9,6 +9,22 @@ import { ReachOut } from "@/components/site/ReachOut";
 import { Footer } from "@/components/site/Footer";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Full-Service Digital company| Tmooh Solutions" },
+      {
+        name: "description",
+        content:
+          "Complete digital services: web development, mobile apps, professional UI/UX design, and effective digital marketing. With 10+ years of expertise, we turn your ideas into integrated solutions that deliver real results.",
+      },
+      { property: "og:title", content: "Full-Service Digital company| Tmooh Solutions" },
+      {
+        property: "og:description",
+        content:
+          "Complete digital services: web development, mobile apps, professional UI/UX design, and effective digital marketing. With 10+ years of expertise, we turn your ideas into integrated solutions that deliver real results.",
+      },
+    ],
+  }),
   component: HomePage,
 });
 
