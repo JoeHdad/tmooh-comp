@@ -129,6 +129,12 @@ const en: Dict = {
   "reach.sub": "Reach out directly — we reply fast.",
   "reach.email": "Email",
   "reach.whatsapp": "WhatsApp",
+
+  "cta.title": "READY TO TRANSFORM YOUR DIGITAL PRESENCE?",
+  "cta.desc": "Let's discuss how our proven process can turn your vision into reality.",
+  "cta.btn.services": "Explore Our Services",
+  "cta.btn.contact": "Contact Us",
+  "cta.note": "No obligation. Just genuine conversation about your goals.",
 };
 
 const ar: Dict = {
@@ -256,6 +262,12 @@ const ar: Dict = {
   "reach.sub": "تواصل معنا مباشرة — نرد بسرعة.",
   "reach.email": "البريد الإلكتروني",
   "reach.whatsapp": "واتساب",
+
+  "cta.title": "هل أنت جاهز لتغيير حضورك الرقمي بالكامل؟",
+  "cta.desc": "دعنا نناقش كيف يمكن لعمليتنا المجربة والمثبتة أن تحول رؤيتك إلى واقع ملموس.",
+  "cta.btn.services": "استكشف خدماتنا",
+  "cta.btn.contact": "تواصل معنا",
+  "cta.note": "لا توجد أي التزامات. مجرد محادثة صادقة وحقيقية حول أهدافك.",
 };
 
 const dicts: Record<Lang, Dict> = { en, ar };
