@@ -5,6 +5,7 @@ import { Services } from "@/components/site/Services";
 import { WhyUs } from "@/components/site/WhyUs";
 import { Process } from "@/components/site/Process";
 import { MoreWorks } from "@/components/site/MoreWorks";
+import { Testimonials } from "@/components/site/Testimonials";
 import { ReachOut } from "@/components/site/ReachOut";
 import { Footer } from "@/components/site/Footer";
 
@@ -38,6 +39,7 @@ function HomePage() {
         <WhyUs />
         <Process />
         <MoreWorks />
+        <Testimonials />
         <ReachOut />
       </main>
       <Footer />
