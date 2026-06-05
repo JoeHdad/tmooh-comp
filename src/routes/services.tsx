@@ -6,10 +6,18 @@ import { Footer } from "@/components/site/Footer";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Services — TMOOH" },
-      { name: "description", content: "AI, web, mobile, marketing, and design services from TMOOH." },
-      { property: "og:title", content: "Services — TMOOH" },
-      { property: "og:description", content: "Explore the smart digital services we build and launch." },
+      { title: "Web Development, Mobile Apps & Digital Marketing Services | Tmooh" },
+      {
+        name: "description",
+        content:
+          "Professional digital services: custom web development, mobile app development, AI automation, UI/UX design & SEO. We deliver high-performance solutions that drive measurable business growth. Get your free consultation today.",
+      },
+      { property: "og:title", content: "Web Development, Mobile Apps & Digital Marketing Services | Tmooh" },
+      {
+        property: "og:description",
+        content:
+          "Professional digital services: custom web development, mobile app development, AI automation, UI/UX design & SEO. We deliver high-performance solutions that drive measurable business growth. Get your free consultation today.",
+      },
     ],
   }),
   component: Page,
@@ -20,7 +28,7 @@ function Page() {
     <div className="min-h-screen bg-background text-foreground">
       <Header />
       <main className="pt-28">
-        <Services />
+        <Services isPage />
       </main>
       <Footer />
     </div>
