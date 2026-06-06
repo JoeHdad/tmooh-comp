@@ -23,15 +23,17 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { Pencil, Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2, Upload, X } from "lucide-react";
 
-export type FieldType = "text" | "textarea" | "url" | "number" | "boolean";
+export type FieldType = "text" | "textarea" | "url" | "number" | "boolean" | "select" | "image";
 export type FieldDef = {
   name: string;
   label: string;
   type: FieldType;
   required?: boolean;
   placeholder?: string;
+  /** For type="select" */
+  options?: { value: string; label: string }[];
 };
 
 type Row = Record<string, any> & { id: string };
@@ -58,6 +60,7 @@ export function CrudPage({
   const [editing, setEditing] = useState<Row | null>(null);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [uploading, setUploading] = useState<string | null>(null); // field name currently uploading
 
   const load = async () => {
     setLoading(true);
@@ -123,6 +126,151 @@ export function CrudPage({
     setDeleteId(null);
   };
 
+  /** Upload image to Supabase Storage bucket "project-images" */
+  const handleImageUpload = async (fieldName: string, file: File) => {
+    setUploading(fieldName);
+    try {
+      const ext = file.name.split(".").pop();
+      const path = `${table}/${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from("project-images")
+        .upload(path, file, { upsert: true });
+      if (upErr) {
+        // Storage not configured or bucket missing — fall back to object URL so
+        // the user can at least preview the image and paste a URL manually.
+        toast.error("Storage upload failed: " + upErr.message + ". Please paste an image URL manually.");
+        return;
+      }
+      const { data } = supabase.storage.from("project-images").getPublicUrl(path);
+      setEditing((prev) => prev ? { ...prev, [fieldName]: data.publicUrl } : prev);
+      toast.success("Image uploaded!");
+    } finally {
+      setUploading(null);
+    }
+  };
+
+  const renderField = (f: FieldDef) => {
+    if (!editing) return null;
+
+    if (f.type === "textarea") {
+      return (
+        <Textarea
+          id={f.name}
+          value={editing[f.name] ?? ""}
+          onChange={(e) => setEditing({ ...editing, [f.name]: e.target.value })}
+          placeholder={f.placeholder}
+          rows={4}
+        />
+      );
+    }
+
+    if (f.type === "boolean") {
+      return (
+        <div className="flex items-center gap-3 pt-2">
+          <Switch
+            id={f.name}
+            checked={!!editing[f.name]}
+            onCheckedChange={(v) => setEditing({ ...editing, [f.name]: v })}
+          />
+          <span className="text-sm text-muted-foreground">
+            {editing[f.name] ? "Yes" : "No"}
+          </span>
+        </div>
+      );
+    }
+
+    if (f.type === "select") {
+      return (
+        <select
+          id={f.name}
+          value={editing[f.name] ?? ""}
+          onChange={(e) => setEditing({ ...editing, [f.name]: e.target.value })}
+          className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <option value="">— Select —</option>
+          {f.options?.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      );
+    }
+
+    if (f.type === "image") {
+      const currentUrl: string = editing[f.name] ?? "";
+      return (
+        <div className="space-y-3">
+          {/* URL text input */}
+          <div className="flex gap-2">
+            <Input
+              id={f.name}
+              type="url"
+              value={currentUrl}
+              onChange={(e) => setEditing({ ...editing, [f.name]: e.target.value })}
+              placeholder="https://... or upload below"
+              className="flex-1"
+            />
+            {currentUrl && (
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                onClick={() => setEditing({ ...editing, [f.name]: "" })}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+
+          {/* Upload button */}
+          <label className="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-white/20 bg-white/5 px-4 py-3 text-sm text-muted-foreground hover:bg-white/10 transition-colors">
+            <Upload className="h-4 w-4 shrink-0" />
+            {uploading === f.name ? "Uploading…" : "Upload image"}
+            <input
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              disabled={uploading === f.name}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleImageUpload(f.name, file);
+              }}
+            />
+          </label>
+
+          {/* Preview */}
+          {currentUrl && (
+            <div className="relative overflow-hidden rounded-lg border border-white/10 bg-black/20">
+              <img
+                src={currentUrl}
+                alt="Preview"
+                className="max-h-48 w-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Default: text / url / number
+    return (
+      <Input
+        id={f.name}
+        type={
+          f.type === "number" ? "number" : f.type === "url" ? "url" : "text"
+        }
+        value={editing[f.name] ?? ""}
+        onChange={(e) => setEditing({ ...editing, [f.name]: e.target.value })}
+        placeholder={f.placeholder}
+        required={f.required}
+      />
+    );
+  };
+
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -176,7 +324,7 @@ export function CrudPage({
                 >
                   {listColumns.map((c) => (
                     <td key={c.name} className="px-4 py-3 align-middle">
-                      {renderCell(row[c.name])}
+                      {renderCell(row[c.name], c.name)}
                     </td>
                   ))}
                   <td className="px-4 py-3 text-end">
@@ -214,47 +362,7 @@ export function CrudPage({
               {fields.map((f) => (
                 <div key={f.name}>
                   <Label htmlFor={f.name}>{f.label}</Label>
-                  {f.type === "textarea" ? (
-                    <Textarea
-                      id={f.name}
-                      value={editing[f.name] ?? ""}
-                      onChange={(e) =>
-                        setEditing({ ...editing, [f.name]: e.target.value })
-                      }
-                      placeholder={f.placeholder}
-                      rows={4}
-                    />
-                  ) : f.type === "boolean" ? (
-                    <div className="flex items-center gap-3 pt-2">
-                      <Switch
-                        id={f.name}
-                        checked={!!editing[f.name]}
-                        onCheckedChange={(v) =>
-                          setEditing({ ...editing, [f.name]: v })
-                        }
-                      />
-                      <span className="text-sm text-muted-foreground">
-                        {editing[f.name] ? "Yes" : "No"}
-                      </span>
-                    </div>
-                  ) : (
-                    <Input
-                      id={f.name}
-                      type={
-                        f.type === "number"
-                          ? "number"
-                          : f.type === "url"
-                            ? "url"
-                            : "text"
-                      }
-                      value={editing[f.name] ?? ""}
-                      onChange={(e) =>
-                        setEditing({ ...editing, [f.name]: e.target.value })
-                      }
-                      placeholder={f.placeholder}
-                      required={f.required}
-                    />
-                  )}
+                  {renderField(f)}
                 </div>
               ))}
             </div>
@@ -291,7 +399,7 @@ export function CrudPage({
   );
 }
 
-function renderCell(v: any) {
+function renderCell(v: any, colName?: string) {
   if (typeof v === "boolean")
     return (
       <span
@@ -305,6 +413,23 @@ function renderCell(v: any) {
       </span>
     );
   if (v == null || v === "") return <span className="text-muted-foreground">—</span>;
+
+  // Show thumbnail for image_url / avatar_url columns
+  if (
+    typeof v === "string" &&
+    (colName === "image_url" || colName === "avatar_url") &&
+    (v.startsWith("http") || v.startsWith("/"))
+  ) {
+    return (
+      <img
+        src={v}
+        alt=""
+        className="h-10 w-16 rounded-md object-cover border border-white/10"
+        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+      />
+    );
+  }
+
   const s = String(v);
   return s.length > 60 ? s.slice(0, 60) + "…" : s;
 }

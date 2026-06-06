@@ -13,8 +13,9 @@ export function Hero() {
 
   const stats = [
     {
-      value: "120+",
-      label: lang === "ar" ? "مشروع تم تسليمه" : "Projects Delivered",
+      id: "1",
+      value: t("why.stat.1.val"),
+      label: t("why.stat.1.lbl"),
       icon: Rocket,
       glow: "rgba(168, 85, 247, 0.15)",
       textColor: "text-purple-400",
@@ -22,8 +23,9 @@ export function Hero() {
       borderColor: "border-purple-500/20",
     },
     {
-      value: "80+",
-      label: lang === "ar" ? "عميل سعيد" : "Happy Clients",
+      id: "2",
+      value: t("why.stat.2.val"),
+      label: t("why.stat.2.lbl"),
       icon: Users,
       glow: "rgba(59, 130, 246, 0.15)",
       textColor: "text-blue-400",
@@ -31,8 +33,9 @@ export function Hero() {
       borderColor: "border-blue-500/20",
     },
     {
-      value: "10+",
-      label: lang === "ar" ? "سنوات خبرة" : "Years of Experience",
+      id: "3",
+      value: t("why.stat.3.val"),
+      label: t("why.stat.3.lbl"),
       icon: Award,
       glow: "rgba(16, 185, 129, 0.15)",
       textColor: "text-emerald-400",
@@ -40,8 +43,9 @@ export function Hero() {
       borderColor: "border-emerald-500/20",
     },
     {
-      value: "15+",
-      label: lang === "ar" ? "دولة مخدومة" : "Countries Served",
+      id: "4",
+      value: t("why.stat.4.val"),
+      label: t("why.stat.4.lbl"),
       icon: Globe,
       glow: "rgba(245, 158, 11, 0.15)",
       textColor: "text-amber-400",

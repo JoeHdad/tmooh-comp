@@ -151,10 +151,10 @@ export function PortfolioPage() {
             className="mt-10 flex flex-wrap items-center justify-center gap-8 sm:gap-12"
           >
             {[
-              { val: "100+", lbl: isAr ? "مشروع مكتمل"  : "Projects Completed" },
-              { val: "60+",  lbl: isAr ? "عميل سعيد"    : "Happy Clients" },
-              { val: "99%",  lbl: isAr ? "رضا العملاء"  : "Client Satisfaction" },
-              { val: "10+",  lbl: isAr ? "سنوات خبرة"   : "Years Experience" },
+              { val: t("why.stat.1.val"), lbl: t("why.stat.1.lbl") },
+              { val: t("why.stat.2.val"), lbl: t("why.stat.2.lbl") },
+              { val: t("why.stat.3.val"), lbl: t("why.stat.3.lbl") },
+              { val: t("why.stat.4.val"), lbl: t("why.stat.4.lbl") },
             ].map((s) => (
               <div key={s.lbl} className="text-center">
                 <p className="font-display text-3xl font-extrabold text-gradient">{s.val}</p>

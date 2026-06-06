@@ -3,12 +3,24 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink, Tag, Globe } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import heroMockup from "@/assets/hero-mockup.png";
 
 export const Route = createFileRoute("/portfolio/$projectId")({
   component: ProjectDetailPage,
 });
+
+type SupabaseProject = {
+  id: string;
+  title: string;
+  description: string | null;
+  image_url: string | null;
+  link_url: string | null;
+  category: string | null;
+  published: boolean;
+};
 
 type ProjectDetails = {
   titleEn: string;
@@ -208,8 +220,149 @@ const DEFAULT_PROJECT_DATA: ProjectDetails = {
 export function ProjectDetailPage() {
   const { projectId } = useParams({ from: "/portfolio/$projectId" });
   const { t, lang } = useI18n();
-
   const isAr = lang === "ar";
+
+  const [sbProject, setSbProject] = useState<SupabaseProject | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Scroll to top whenever we navigate to a new project
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [projectId]);
+
+  // Fetch from Supabase for real UUIDs (not static fallback keys like f1-f9)
+  useEffect(() => {
+    if (PROJECTS_DATA[projectId]) {
+      // Static project — no need to fetch
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    supabase
+      .from("portfolio_projects")
+      .select("id, title, description, image_url, link_url, category, published")
+      .eq("id", projectId)
+      .single()
+      .then(({ data }) => {
+        setSbProject((data as SupabaseProject) ?? null);
+        setLoading(false);
+      });
+  }, [projectId]);
+
+  // ── If it's a real Supabase project, render a clean detail page ──────────
+  if (!PROJECTS_DATA[projectId]) {
+    if (loading) {
+      return (
+        <div className="min-h-screen bg-background text-foreground">
+          <Header />
+          <main className="flex min-h-[60vh] items-center justify-center">
+            <div className="h-10 w-10 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    if (!sbProject) {
+      return (
+        <div className="min-h-screen bg-background text-foreground">
+          <Header />
+          <main className="flex min-h-[60vh] flex-col items-center justify-center gap-4 px-6 text-center">
+            <h1 className="text-4xl font-bold text-foreground">404</h1>
+            <p className="text-muted-foreground">{isAr ? "المشروع غير موجود." : "Project not found."}</p>
+            <Link to="/portfolio" className="text-primary-glow hover:underline text-sm">
+              {isAr ? "← العودة للمعرض" : "← Back to Portfolio"}
+            </Link>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    // Render real Supabase project
+    return (
+      <div className="min-h-screen bg-background text-foreground">
+        <Header />
+        <main className="pt-32 pb-20 overflow-hidden">
+          {/* Back link + Title */}
+          <section className="container mx-auto max-w-6xl px-6 text-center">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+              <Link to="/portfolio" className="inline-flex items-center gap-2 text-xs font-semibold text-primary-glow hover:underline mb-6">
+                {isAr ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
+                {isAr ? "العودة للمعرض" : "Back to Portfolio"}
+              </Link>
+              <h1 className="font-display text-4xl font-extrabold sm:text-6xl tracking-tight text-white" dir="auto">
+                {sbProject.title}
+              </h1>
+              {sbProject.description && (
+                <p className="mx-auto mt-6 max-w-3xl text-base sm:text-lg text-neutral-400 font-medium leading-relaxed" dir="auto">
+                  {sbProject.description}
+                </p>
+              )}
+              {sbProject.category && (
+                <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-muted-foreground">
+                  <Tag className="h-3.5 w-3.5" />
+                  {sbProject.category}
+                </div>
+              )}
+            </motion.div>
+          </section>
+
+          {/* Image / Mockup */}
+          <section className="container mx-auto max-w-5xl px-6 mt-12 sm:mt-16">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="relative rounded-3xl border border-white/10 bg-neutral-900/50 p-4 sm:p-6 shadow-glow overflow-hidden"
+            >
+              <img
+                src={sbProject.image_url || heroMockup}
+                alt={sbProject.title}
+                className="w-full h-auto object-cover rounded-2xl max-h-[560px]"
+              />
+            </motion.div>
+          </section>
+
+          {/* CTA button */}
+          {sbProject.link_url && (
+            <section className="container mx-auto max-w-6xl px-6 mt-16 text-center">
+              <a
+                href={sbProject.link_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white px-8 py-3.5 text-sm font-bold text-black shadow-glow hover:bg-neutral-100 hover:scale-105 active:scale-95 transition duration-200"
+              >
+                {isAr ? "زيارة المشروع" : "Visit Project"}
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </section>
+          )}
+
+          {/* CTA Banner */}
+          <section className="container mx-auto max-w-5xl px-6 mt-28">
+            <div className="relative rounded-3xl border border-primary/20 bg-gradient-to-r from-violet-950/45 to-indigo-950/45 p-10 sm:p-16 text-center shadow-card overflow-hidden">
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+              <h2 className="font-display text-2xl font-extrabold sm:text-4xl text-white">
+                {isAr ? "منتجك القادم يبدأ هنا" : "Your next product starts here"}
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                {isAr ? "من الفكرة حتى الإطلاق — نساعد الشركات الناشئة والشركات القائمة على بناء وتصميم منتجات رقمية مبهرة." : "From idea to launch — we help startups build products people actually want to use."}
+              </p>
+              <div className="mt-8">
+                <Link to="/contact" className="inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 text-sm font-bold text-black hover:bg-neutral-100 hover:scale-105 active:scale-95 transition duration-200">
+                  {isAr ? "ابنِ معنا" : "Build With Us"}
+                </Link>
+              </div>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // ── Static demo project (f1–f4) ───────────────────────────────────────────
   const data = PROJECTS_DATA[projectId] || DEFAULT_PROJECT_DATA;
 
   const title = isAr ? data.titleAr : data.titleEn;
