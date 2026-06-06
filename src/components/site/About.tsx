@@ -1,6 +1,6 @@
 import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
-import { Code2, Palette, Megaphone, Sparkles, Layers, Languages, Rocket, Award, Clock, Briefcase, Users } from "lucide-react";
+import { Code2, Palette, Megaphone, Sparkles, Layers, Languages, Rocket, Award, Globe, Users } from "lucide-react";
 import logo from "@/assets/tmooh-logo.svg";
 import { useSiteSettings } from "@/lib/useSiteSettings";
 
@@ -23,10 +23,10 @@ export function About() {
   ] as const;
 
   const stats = [
-    { id: "1", Icon: Award },
-    { id: "2", Icon: Clock },
-    { id: "3", Icon: Briefcase },
-    { id: "4", Icon: Users },
+    { id: "1", Icon: Rocket },
+    { id: "2", Icon: Users },
+    { id: "3", Icon: Award },
+    { id: "4", Icon: Globe },
   ];
 
   const advantages = [
