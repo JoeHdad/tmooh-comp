@@ -6,10 +6,18 @@ import { Footer } from "@/components/site/Footer";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — TMOOH" },
-      { name: "description", content: "Tell us about your project — we'll get back to you fast." },
-      { property: "og:title", content: "Contact — TMOOH" },
-      { property: "og:description", content: "Start a conversation and launch your next digital product." },
+      { title: "Contact Tmooh Solutions | Get a Free Consultation" },
+      {
+        name: "description",
+        content:
+          "Ready to scale your business? Contact Tmooh Solutions today for custom websites, mobile apps, AI automation, and digital marketing. Let's talk!",
+      },
+      { property: "og:title", content: "Contact Tmooh Solutions | Get a Free Consultation" },
+      {
+        property: "og:description",
+        content:
+          "Ready to scale your business? Contact Tmooh Solutions today for custom websites, mobile apps, AI automation, and digital marketing. Let's talk!",
+      },
     ],
   }),
   component: Page,

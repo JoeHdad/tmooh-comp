@@ -84,6 +84,9 @@ const en: Dict = {
   "testi.3.body": "Tmooh's digital marketing strategy increased our client's online leads by 3x in just 3 months. Their data-driven approach and transparent reporting made all the difference.",
 
   "contact.title": "Contact Us",
+  "contact.page.title": "Let's Build Something Great Together",
+  "contact.page.desc": "Join 100+ successful brands that scaled their operations with tmooh. whether you need a high-performance website, a custom flutter app, or smart ai automation, we build production-ready solutions that deliver real roi. get your free technical roadmap within 48 hours.",
+  "contact.card.phone": "Phone Support",
   "contact.send": "Send Message",
   "contact.fullName": "Full Name",
   "contact.email": "Email Address",
@@ -237,6 +240,9 @@ const ar: Dict = {
   "testi.3.body": "زادت استراتيجية التسويق الرقمي من طموح العملاء المحتملين لعملائنا عبر الإنترنت بمقدار 3 أضعاف في 3 أشهر فقط. نهجهم القائم على البيانات وتقاريرهم الشفافة صنع الفارق بالكامل.",
 
   "contact.title": "تواصل معنا",
+  "contact.page.title": "دعنا نبني شيئاً عظيماً معاً",
+  "contact.page.desc": "انضم إلى أكثر من 100 علامة تجارية ناجحة قامت بتوسيع نطاق عملياتها مع طموح. سواء كنت بحاجة إلى موقع ويب عالي الأداء، أو تطبيق جوال مخصص بلغة Flutter، أو أتمتة ذكية بالذكاء الاصطناعي، فإننا نبني حلولاً برمجية جاهزة للعمل الفعلي تحقق عائداً حقيقياً على الاستثمار. احصل على خارطة الطريق التقنية المجانية الخاصة بك في غضون 48 ساعة.",
+  "contact.card.phone": "الدعم الهاتفي",
   "contact.send": "أرسل رسالة",
   "contact.fullName": "الاسم الكامل",
   "contact.email": "البريد الإلكتروني",
