@@ -39,6 +39,8 @@ const en: Dict = {
   "services.s4.desc": "Create fast, secure, and fully responsive websites built for growth. Our custom web solutions deliver seamless user experiences and support your business at scale.",
   "services.s5.title": "Digital Marketing & SEO Services",
   "services.s5.desc": "Drive measurable growth with strategic SEO, targeted campaigns, and data-driven marketing. Get found by your ideal customers and convert them into loyal clients.",
+  "services.s6.title": "Premium Graphic & Brand Identity Design",
+  "services.s6.desc": "Create cohesive, luxury visual assets that capture consumer attention, build long-term trust, and establish brand authority.",
 
   "portfolio.title": "Portfolio",
   "portfolio.cardTitle": "Project Website",
@@ -195,6 +197,8 @@ const ar: Dict = {
   "services.s4.desc": "أنشئ مواقع ويب سريعة وآمنة ومتجاوبة بالكامل مصمّمة للنمو. حلولنا المخصصة تُقدّم تجارب مستخدم سلسة وتدعم أعمالك على أي نطاق.",
   "services.s5.title": "التسويق الرقمي وتحسين محركات البحث",
   "services.s5.desc": "حقّق نمواً ملموساً بتحسين محركات البحث الاستراتيجي والحملات المستهدفة والتسويق المبني على البيانات. اجعل عملاءك المثاليين يجدونك ويتحولون إلى عملاء دائمين.",
+  "services.s6.title": "تصميم الهوية البصرية والجرافيك",
+  "services.s6.desc": "نصنع هويات بصرية متميزة وأصولاً تصويرية فاخرة تجذب انتباه المستهلك، وتبني الثقة المتبادلة، وتضمن حضوراً قوياً لعلامتك.",
 
   "portfolio.title": "أعمالنا",
   "portfolio.cardTitle": "موقع إلكتروني",

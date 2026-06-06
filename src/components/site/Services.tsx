@@ -9,15 +9,17 @@ import {
   Layers,
   Smartphone,
   Cpu,
+  Palette,
   Check,
   type LucideIcon,
 } from "lucide-react";
 
 const fallback = [
-  { id: "s1", Icon: Smartphone },
-  { id: "s2", Icon: Layers },
-  { id: "s3", Icon: Cpu },
   { id: "s4", Icon: Code2 },
+  { id: "s1", Icon: Smartphone },
+  { id: "s3", Icon: Cpu },
+  { id: "s6", Icon: Palette },
+  { id: "s2", Icon: Layers },
   { id: "s5", Icon: Megaphone },
 ];
 
