@@ -1,9 +1,9 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Services } from "@/components/site/Services";
 import { Footer } from "@/components/site/Footer";
 
-export const Route = createFileRoute("/services")({
+export const Route = createFileRoute("/services/")({
   head: () => ({
     meta: [
       { title: "Web Development, Mobile Apps & Digital Marketing Services | Tmooh" },
@@ -24,10 +24,6 @@ export const Route = createFileRoute("/services")({
 });
 
 function Page() {
-  return <Outlet />;
-}
-
-export function ServicesPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
