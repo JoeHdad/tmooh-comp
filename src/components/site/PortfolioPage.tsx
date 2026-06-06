@@ -428,12 +428,9 @@ function ProjectCard({
     </motion.article>
   );
 
-  if (project.link_url) {
-    return (
-      <a href={project.link_url} target="_blank" rel="noreferrer" className="block">
-        {inner}
-      </a>
-    );
-  }
-  return inner;
+  return (
+    <Link to="/portfolio/$projectId" params={{ projectId: project.id }} className="block">
+      {inner}
+    </Link>
+  );
 }

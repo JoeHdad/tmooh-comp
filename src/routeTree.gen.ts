@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServicesServiceIdRouteImport } from './routes/services.$serviceId'
+import { Route as PortfolioProjectIdRouteImport } from './routes/portfolio.$projectId'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
@@ -70,6 +71,11 @@ const ServicesServiceIdRoute = ServicesServiceIdRouteImport.update({
   path: '/$serviceId',
   getParentRoute: () => ServicesRoute,
 } as any)
+const PortfolioProjectIdRoute = PortfolioProjectIdRouteImport.update({
+  id: '/$projectId',
+  path: '/$projectId',
+  getParentRoute: () => PortfolioRoute,
+} as any)
 const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
   id: '/testimonials',
   path: '/testimonials',
@@ -106,7 +112,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
-  '/portfolio': typeof PortfolioRoute
+  '/portfolio': typeof PortfolioRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/password': typeof AdminPasswordRoute
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/portfolio/$projectId': typeof PortfolioProjectIdRoute
   '/services/$serviceId': typeof ServicesServiceIdRoute
   '/admin/': typeof AdminIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -122,13 +129,14 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/portfolio': typeof PortfolioRoute
+  '/portfolio': typeof PortfolioRouteWithChildren
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/password': typeof AdminPasswordRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/portfolio/$projectId': typeof PortfolioProjectIdRoute
   '/services/$serviceId': typeof ServicesServiceIdRoute
   '/admin': typeof AdminIndexRoute
   '/services': typeof ServicesIndexRoute
@@ -139,7 +147,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
-  '/portfolio': typeof PortfolioRoute
+  '/portfolio': typeof PortfolioRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/password': typeof AdminPasswordRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/portfolio/$projectId': typeof PortfolioProjectIdRoute
   '/services/$serviceId': typeof ServicesServiceIdRoute
   '/admin/': typeof AdminIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
     | '/admin/services'
     | '/admin/settings'
     | '/admin/testimonials'
+    | '/portfolio/$projectId'
     | '/services/$serviceId'
     | '/admin/'
     | '/services/'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
     | '/admin/services'
     | '/admin/settings'
     | '/admin/testimonials'
+    | '/portfolio/$projectId'
     | '/services/$serviceId'
     | '/admin'
     | '/services'
@@ -198,6 +209,7 @@ export interface FileRouteTypes {
     | '/admin/services'
     | '/admin/settings'
     | '/admin/testimonials'
+    | '/portfolio/$projectId'
     | '/services/$serviceId'
     | '/admin/'
     | '/services/'
@@ -208,7 +220,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
   ContactRoute: typeof ContactRoute
-  PortfolioRoute: typeof PortfolioRoute
+  PortfolioRoute: typeof PortfolioRouteWithChildren
   ServicesRoute: typeof ServicesRouteWithChildren
 }
 
@@ -277,6 +289,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesServiceIdRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/portfolio/$projectId': {
+      id: '/portfolio/$projectId'
+      path: '/$projectId'
+      fullPath: '/portfolio/$projectId'
+      preLoaderRoute: typeof PortfolioProjectIdRouteImport
+      parentRoute: typeof PortfolioRoute
+    }
     '/admin/testimonials': {
       id: '/admin/testimonials'
       path: '/testimonials'
@@ -344,6 +363,18 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface PortfolioRouteChildren {
+  PortfolioProjectIdRoute: typeof PortfolioProjectIdRoute
+}
+
+const PortfolioRouteChildren: PortfolioRouteChildren = {
+  PortfolioProjectIdRoute: PortfolioProjectIdRoute,
+}
+
+const PortfolioRouteWithChildren = PortfolioRoute._addFileChildren(
+  PortfolioRouteChildren,
+)
+
 interface ServicesRouteChildren {
   ServicesServiceIdRoute: typeof ServicesServiceIdRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -363,7 +394,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   ContactRoute: ContactRoute,
-  PortfolioRoute: PortfolioRoute,
+  PortfolioRoute: PortfolioRouteWithChildren,
   ServicesRoute: ServicesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
