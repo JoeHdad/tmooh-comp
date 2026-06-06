@@ -7,7 +7,6 @@ import { Process } from "@/components/site/Process";
 import { MoreWorks } from "@/components/site/MoreWorks";
 import { Testimonials } from "@/components/site/Testimonials";
 import { CTASection } from "@/components/site/CTASection";
-import { ReachOut } from "@/components/site/ReachOut";
 import { Footer } from "@/components/site/Footer";
 
 export const Route = createFileRoute("/")({
@@ -42,7 +41,6 @@ function HomePage() {
         <MoreWorks />
         <Testimonials />
         <CTASection />
-        <ReachOut />
       </main>
       <Footer />
     </div>
