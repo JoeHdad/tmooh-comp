@@ -31,17 +31,18 @@ type SupabaseProject = {
   role_ar: string | null;
   challenge: string | null;
   challenge_ar: string | null;
-  solution: string | null;
-  solution_ar: string | null;
+  solution?: string | null;
+  solution_ar?: string | null;
   approach?: string | null;
   approach_ar?: string | null;
-  highlights_en_json: string | null;
-  highlights_ar_json: string | null;
+  highlights_en_json?: string | null;
+  highlights_ar_json?: string | null;
   scope_en_csv?: string | null;
   scope_ar_csv?: string | null;
-  scope: string[] | null;
-  scope_ar: string[] | null;
-  gallery: string[] | null;
+  scope?: string[] | null;
+  scope_ar?: string[] | null;
+  gallery?: string[] | null;
+  [key: string]: any;
 };
 
 type ProjectDetails = {
@@ -262,11 +263,16 @@ export function ProjectDetailPage() {
     setLoading(true);
     supabase
       .from("portfolio_projects")
-      .select("id, title, description, description_ar, image_url, link_url, category, published, industry, industry_ar, services, services_ar, platform, platform_ar, role, role_ar, challenge, challenge_ar, solution, solution_ar, highlights_en_json, highlights_ar_json, scope_en_csv, scope_ar_csv, scope, scope_ar, gallery")
+      .select("*")
       .eq("id", projectId)
       .single()
-      .then(({ data }) => {
-        setSbProject((data as SupabaseProject) ?? null);
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Portfolio fetch error:", error.message);
+          setSbProject(null);
+        } else {
+          setSbProject((data as SupabaseProject) ?? null);
+        }
         setLoading(false);
       });
   }, [projectId]);
