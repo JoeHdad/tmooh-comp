@@ -168,7 +168,7 @@ export function PortfolioPage() {
       {/* ── CATEGORY FILTER PILLS ──────────────────────── */}
       <section className="sticky top-20 z-20 bg-background/80 backdrop-blur-lg border-b border-white/5 py-4">
         <div className="container mx-auto max-w-6xl px-6">
-          <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
+          <div className="flex flex-wrap items-center justify-center gap-2 pb-1">
             {CATEGORIES.map((cat) => {
               const CatIcon = cat.Icon;
               const isActive = active === cat.key;
