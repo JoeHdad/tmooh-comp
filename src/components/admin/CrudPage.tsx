@@ -62,7 +62,22 @@ export function CrudPage({
   const [editing, setEditing] = useState<Row | null>(null);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [uploading, setUploading] = useState<string | null>(null); // field name currently uploading
+  const [uploading, setUploading] = useState<string | null>(null);
+  // Auto-detected columns that actually exist in the DB table
+  const [existingColumns, setExistingColumns] = useState<Set<string> | null>(null);
+
+  /** Detect which columns actually exist in the DB by fetching one row */
+  const detectColumns = async () => {
+    const { data } = await (supabase as any).from(table).select("*").limit(1);
+    if (data && data.length > 0) {
+      setExistingColumns(new Set(Object.keys(data[0])));
+    } else {
+      // Empty table — try inserting a minimal record to see what columns exist
+      // Instead, just fetch column names from Supabase schema via a dummy query
+      // We'll use the fields as-is but catch errors gracefully
+      setExistingColumns(null); // null means "unknown, try all"
+    }
+  };
 
   const load = async () => {
     setLoading(true);
@@ -71,13 +86,22 @@ export function CrudPage({
       .select("*")
       .order(orderBy, { ascending: true });
     if (error) toast.error(error.message);
-    setRows((data as Row[]) ?? []);
+    const rows = (data as Row[]) ?? [];
+    setRows(rows);
+    // Detect columns from the first row returned
+    if (rows.length > 0) {
+      setExistingColumns(new Set(Object.keys(rows[0])));
+    } else {
+      // No rows yet — try detecting via empty select
+      await detectColumns();
+    }
     setLoading(false);
   };
 
   useEffect(() => {
     load();
   }, [table]);
+
 
   const startCreate = () => {
     const empty: Row = { id: "" };
@@ -97,10 +121,11 @@ export function CrudPage({
   const save = async () => {
     if (!editing) return;
 
-    const buildPayload = (keys?: string[]) => {
+    const buildPayload = (allowedKeys?: Set<string>) => {
       const payload: Record<string, any> = {};
-      const targetFields = keys ? fields.filter(f => keys.includes(f.name)) : fields;
-      for (const f of targetFields) {
+      for (const f of fields) {
+        // Skip fields not in the DB if we know what exists
+        if (allowedKeys && !allowedKeys.has(f.name)) continue;
         let v = editing[f.name];
         if (f.type === "number") v = Number(v) || 0;
         payload[f.name] = v === "" ? null : v;
@@ -111,31 +136,49 @@ export function CrudPage({
     const isUpdate = !!editing.id;
     const client = supabase as any;
 
-    // ── Attempt 1: save all fields ────────────────────────────────────────────
-    let payload = buildPayload();
+    // Build payload — use known columns if available, otherwise try all
+    let payload = buildPayload(existingColumns ?? undefined);
     let res = isUpdate
       ? await client.from(table).update(payload).eq("id", editing.id)
       : await client.from(table).insert(payload);
 
-    // ── Attempt 2: if "column not found" error, retry with only safe base columns
+    // If schema error, strip unknown columns and retry
     if (res.error && (res.error.message?.toLowerCase().includes("column") || res.error.message?.toLowerCase().includes("schema"))) {
-      toast.warning("بعض الأعمدة الجديدة غير موجودة في قاعدة البيانات. جارٍ الحفظ بالبيانات الأساسية فقط...");
-      const BASE_COLS = ["title", "description", "description_ar", "image_url", "link_url", "category", "sort_order", "published"];
-      payload = buildPayload(BASE_COLS);
-      res = isUpdate
-        ? await client.from(table).update(payload).eq("id", editing.id)
-        : await client.from(table).insert(payload);
+      // Extract column name from error message and remove it
+      const match = res.error.message.match(/column "([^"]+)"/) || res.error.message.match(/'([^']+)' column/);
+      const badCol = match?.[1];
 
-      if (res.error) {
-        toast.error("فشل الحفظ: " + res.error.message + "\n\nيرجى تشغيل SQL migration في Supabase لإضافة الأعمدة الجديدة.");
-        return;
+      if (badCol) {
+        // Mark this column as non-existent and remove it from payload
+        const updatedColumns = existingColumns ? new Set(existingColumns) : new Set(Object.keys(payload));
+        updatedColumns.delete(badCol);
+        setExistingColumns(updatedColumns);
+        delete payload[badCol];
+
+        // Retry without the bad column
+        res = isUpdate
+          ? await client.from(table).update(payload).eq("id", editing.id)
+          : await client.from(table).insert(payload);
       }
 
-      toast.success((isUpdate ? "تم التحديث" : "تم الإنشاء") + " (بيانات أساسية فقط — شغّل SQL migration لحفظ كل البيانات)");
-      setOpen(false);
-      setEditing(null);
-      load();
-      return;
+      // If still failing, strip to absolute minimum
+      if (res.error) {
+        const SAFE_COLS = new Set(["title", "description", "description_ar", "image_url", "link_url", "category", "sort_order", "published"]);
+        payload = buildPayload(SAFE_COLS);
+        res = isUpdate
+          ? await client.from(table).update(payload).eq("id", editing.id)
+          : await client.from(table).insert(payload);
+
+        if (res.error) {
+          toast.error("فشل الحفظ: " + res.error.message);
+          return;
+        }
+        toast.warning("تم الحفظ بالحقول الأساسية فقط. بعض الأعمدة مفقودة من قاعدة البيانات.");
+        setOpen(false);
+        setEditing(null);
+        load();
+        return;
+      }
     }
 
     if (res.error) {
