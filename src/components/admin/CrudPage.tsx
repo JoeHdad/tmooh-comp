@@ -25,7 +25,9 @@ import {
 import { toast } from "sonner";
 import { Pencil, Plus, Trash2, Upload, X } from "lucide-react";
 
-export type FieldType = "text" | "textarea" | "url" | "number" | "boolean" | "select" | "image";
+
+export type FieldType = "text" | "number" | "boolean" | "image" | "textarea" | "select" | "url" | "gallery" | "string_array";
+
 export type FieldDef = {
   name: string;
   label: string;
@@ -136,12 +138,12 @@ export function CrudPage({
     });
 
   /** Upload image to Supabase Storage — auto-creates bucket if missing */
-  const handleImageUpload = async (fieldName: string, file: File) => {
+  const handleImageUpload = async (fieldName: string, file: File, isArray = false) => {
     setUploading(fieldName);
     const BUCKET = "project-images";
     try {
       const ext = file.name.split(".").pop() ?? "jpg";
-      const path = `${table}/${Date.now()}.${ext}`;
+      const path = `${table}/${Date.now()}_${Math.random().toString(36).substring(2,7)}.${ext}`;
 
       // ── Attempt 1: upload directly ───────────────────────────────────────
       let { error: upErr } = await supabase.storage
@@ -178,14 +180,28 @@ export function CrudPage({
         }
         toast.loading("جارٍ معالجة الصورة...", { id: "img-process" });
         const dataUrl = await fileToDataUrl(file);
-        setEditing((prev) => prev ? { ...prev, [fieldName]: dataUrl } : prev);
+        setEditing((prev) => {
+          if (!prev) return prev;
+          if (isArray) {
+            const arr = Array.isArray(prev[fieldName]) ? prev[fieldName] : [];
+            return { ...prev, [fieldName]: [...arr, dataUrl] };
+          }
+          return { ...prev, [fieldName]: dataUrl };
+        });
         toast.success("تم تحميل الصورة محلياً ✓", { id: "img-process" });
         return;
       }
 
       // ── Success ───────────────────────────────────────────────────────────
       const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-      setEditing((prev) => prev ? { ...prev, [fieldName]: data.publicUrl } : prev);
+      setEditing((prev) => {
+        if (!prev) return prev;
+        if (isArray) {
+          const arr = Array.isArray(prev[fieldName]) ? prev[fieldName] : [];
+          return { ...prev, [fieldName]: [...arr, data.publicUrl] };
+        }
+        return { ...prev, [fieldName]: data.publicUrl };
+      });
       toast.success("تم رفع الصورة بنجاح ✓");
     } catch (err: any) {
       toast.error("خطأ غير متوقع: " + (err?.message ?? String(err)));
@@ -298,6 +314,61 @@ export function CrudPage({
             </div>
           )}
         </div>
+      );
+    }
+
+    if (f.type === "gallery") {
+      const urls: string[] = Array.isArray(editing[f.name]) ? editing[f.name] : [];
+      return (
+        <div className="space-y-3">
+          <div className="flex flex-wrap gap-2">
+            {urls.map((url, i) => (
+              <div key={i} className="relative group rounded-lg overflow-hidden border border-white/10 bg-black/20 w-24 h-24">
+                <img src={url} alt={`Gallery ${i}`} className="w-full h-full object-cover" />
+                <button
+                  type="button"
+                  className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => {
+                    const newUrls = [...urls];
+                    newUrls.splice(i, 1);
+                    setEditing({ ...editing, [f.name]: newUrls });
+                  }}
+                >
+                  <Trash2 className="h-5 w-5 text-red-500" />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Upload button */}
+          <label className="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-white/20 bg-white/5 px-4 py-3 text-sm text-muted-foreground hover:bg-white/10 transition-colors w-full">
+            <Upload className="h-4 w-4 shrink-0" />
+            {uploading === f.name ? "Uploading…" : "Add image to gallery"}
+            <input
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              disabled={uploading === f.name}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleImageUpload(f.name, file, true);
+              }}
+            />
+          </label>
+        </div>
+      );
+    }
+
+    if (f.type === "string_array") {
+      const arr: string[] = Array.isArray(editing[f.name]) ? editing[f.name] : [];
+      return (
+        <Textarea
+          id={f.name}
+          value={arr.join("\n")}
+          onChange={(e) => setEditing({ ...editing, [f.name]: e.target.value.split("\n").filter(x => x.trim() !== "") })}
+          placeholder={`${f.placeholder || ''}\n(Enter each item on a new line)`}
+          rows={5}
+        />
       );
     }
 

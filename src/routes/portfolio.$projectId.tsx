@@ -31,12 +31,17 @@ type SupabaseProject = {
   role_ar: string | null;
   challenge: string | null;
   challenge_ar: string | null;
-  approach: string | null;
-  approach_ar: string | null;
+  solution: string | null;
+  solution_ar: string | null;
+  approach?: string | null;
+  approach_ar?: string | null;
   highlights_en_json: string | null;
   highlights_ar_json: string | null;
-  scope_en_csv: string | null;
-  scope_ar_csv: string | null;
+  scope_en_csv?: string | null;
+  scope_ar_csv?: string | null;
+  scope: string[] | null;
+  scope_ar: string[] | null;
+  gallery: string[] | null;
 };
 
 type ProjectDetails = {
@@ -257,7 +262,7 @@ export function ProjectDetailPage() {
     setLoading(true);
     supabase
       .from("portfolio_projects")
-      .select("id, title, description, description_ar, image_url, link_url, category, published, industry, industry_ar, services, services_ar, platform, platform_ar, role, role_ar, challenge, challenge_ar, approach, approach_ar, highlights_en_json, highlights_ar_json, scope_en_csv, scope_ar_csv")
+      .select("id, title, description, description_ar, image_url, link_url, category, published, industry, industry_ar, services, services_ar, platform, platform_ar, role, role_ar, challenge, challenge_ar, approach, approach_ar, solution, solution_ar, highlights_en_json, highlights_ar_json, scope_en_csv, scope_ar_csv, scope, scope_ar, gallery")
       .eq("id", projectId)
       .single()
       .then(({ data }) => {
@@ -304,7 +309,7 @@ export function ProjectDetailPage() {
     const platform = isAr ? (sbProject.platform_ar || sbProject.platform || "موقع ويب") : (sbProject.platform || sbProject.platform_ar || "Website");
     const role = isAr ? (sbProject.role_ar || sbProject.role || "تصميم المنتج") : (sbProject.role || sbProject.role_ar || "Product Design");
     const challenge = isAr ? (sbProject.challenge_ar || sbProject.challenge || "") : (sbProject.challenge || sbProject.challenge_ar || "");
-    const approach = isAr ? (sbProject.approach_ar || sbProject.approach || "") : (sbProject.approach || sbProject.approach_ar || "");
+    const approach = isAr ? (sbProject.solution_ar || sbProject.solution || sbProject.approach_ar || sbProject.approach || "") : (sbProject.solution || sbProject.solution_ar || sbProject.approach || sbProject.approach_ar || "");
 
     // Highlights parsing
     let highlights: { title: string; desc: string }[] = [];
@@ -334,9 +339,14 @@ export function ProjectDetailPage() {
 
     // Scope parsing
     let scope: string[] = [];
-    const scopeCsv = isAr ? sbProject.scope_ar_csv : sbProject.scope_en_csv;
-    if (scopeCsv) {
-      scope = scopeCsv.split(",").map(s => s.trim()).filter(Boolean);
+    const scopeArr = isAr ? sbProject.scope_ar : sbProject.scope;
+    if (scopeArr && Array.isArray(scopeArr) && scopeArr.length > 0) {
+      scope = scopeArr;
+    } else {
+      const scopeCsv = isAr ? sbProject.scope_ar_csv : sbProject.scope_en_csv;
+      if (scopeCsv) {
+        scope = scopeCsv.split(",").map(s => s.trim()).filter(Boolean);
+      }
     }
     if (scope.length === 0) {
       scope = isAr 
@@ -389,6 +399,27 @@ export function ProjectDetailPage() {
                 className="w-full h-auto object-cover rounded-2xl max-h-[560px]"
               />
             </motion.div>
+            
+            {/* Gallery Section */}
+            {sbProject.gallery && sbProject.gallery.length > 0 && (
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {sbProject.gallery.map((imgUrl, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 + idx * 0.1 }}
+                    className="relative rounded-2xl border border-white/10 bg-neutral-900/50 p-2 shadow-glow overflow-hidden"
+                  >
+                    <img
+                      src={imgUrl}
+                      alt={`${title} gallery ${idx + 1}`}
+                      className="w-full h-48 object-cover rounded-xl"
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </section>
 
           {/* Metadata info bar */}
