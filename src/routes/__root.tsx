@@ -33,6 +33,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "google-site-verification", content: "Vqswx_NNh1sZM3puj252WIxPc8ziRZSJMjZaI4LB1Js" },
       { title: "TMOOH — Smart Digital Solutions" },
       {
         name: "description",
