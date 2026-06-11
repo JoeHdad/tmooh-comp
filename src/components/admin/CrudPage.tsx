@@ -96,17 +96,48 @@ export function CrudPage({
 
   const save = async () => {
     if (!editing) return;
-    const payload: Record<string, any> = {};
-    for (const f of fields) {
-      let v = editing[f.name];
-      if (f.type === "number") v = Number(v) || 0;
-      payload[f.name] = v === "" ? null : v;
-    }
+
+    const buildPayload = (keys?: string[]) => {
+      const payload: Record<string, any> = {};
+      const targetFields = keys ? fields.filter(f => keys.includes(f.name)) : fields;
+      for (const f of targetFields) {
+        let v = editing[f.name];
+        if (f.type === "number") v = Number(v) || 0;
+        payload[f.name] = v === "" ? null : v;
+      }
+      return payload;
+    };
+
     const isUpdate = !!editing.id;
     const client = supabase as any;
-    const res = isUpdate
+
+    // ── Attempt 1: save all fields ────────────────────────────────────────────
+    let payload = buildPayload();
+    let res = isUpdate
       ? await client.from(table).update(payload).eq("id", editing.id)
       : await client.from(table).insert(payload);
+
+    // ── Attempt 2: if "column not found" error, retry with only safe base columns
+    if (res.error && (res.error.message?.toLowerCase().includes("column") || res.error.message?.toLowerCase().includes("schema"))) {
+      toast.warning("بعض الأعمدة الجديدة غير موجودة في قاعدة البيانات. جارٍ الحفظ بالبيانات الأساسية فقط...");
+      const BASE_COLS = ["title", "description", "description_ar", "image_url", "link_url", "category", "sort_order", "published"];
+      payload = buildPayload(BASE_COLS);
+      res = isUpdate
+        ? await client.from(table).update(payload).eq("id", editing.id)
+        : await client.from(table).insert(payload);
+
+      if (res.error) {
+        toast.error("فشل الحفظ: " + res.error.message + "\n\nيرجى تشغيل SQL migration في Supabase لإضافة الأعمدة الجديدة.");
+        return;
+      }
+
+      toast.success((isUpdate ? "تم التحديث" : "تم الإنشاء") + " (بيانات أساسية فقط — شغّل SQL migration لحفظ كل البيانات)");
+      setOpen(false);
+      setEditing(null);
+      load();
+      return;
+    }
+
     if (res.error) {
       toast.error(res.error.message);
       return;
