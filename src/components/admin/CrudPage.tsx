@@ -126,24 +126,69 @@ export function CrudPage({
     setDeleteId(null);
   };
 
-  /** Upload image to Supabase Storage bucket "project-images" */
+  /** Convert a File to a base64 data URL (fallback when Storage is unavailable) */
+  const fileToDataUrl = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+  /** Upload image to Supabase Storage — auto-creates bucket if missing */
   const handleImageUpload = async (fieldName: string, file: File) => {
     setUploading(fieldName);
+    const BUCKET = "project-images";
     try {
-      const ext = file.name.split(".").pop();
+      const ext = file.name.split(".").pop() ?? "jpg";
       const path = `${table}/${Date.now()}.${ext}`;
-      const { error: upErr } = await supabase.storage
-        .from("project-images")
+
+      // ── Attempt 1: upload directly ───────────────────────────────────────
+      let { error: upErr } = await supabase.storage
+        .from(BUCKET)
         .upload(path, file, { upsert: true });
+
+      // ── Attempt 2: bucket missing → try to create it, then retry ─────────
+      if (upErr && (upErr.message.toLowerCase().includes("not found") ||
+                    upErr.message.toLowerCase().includes("does not exist") ||
+                    upErr.message.toLowerCase().includes("bucket"))) {
+        const { error: bucketErr } = await supabase.storage.createBucket(BUCKET, {
+          public: true,
+          fileSizeLimit: 10485760, // 10 MB
+          allowedMimeTypes: ["image/png", "image/jpeg", "image/webp", "image/gif", "image/svg+xml"],
+        });
+
+        if (!bucketErr) {
+          // Retry after creating bucket
+          const retry = await supabase.storage
+            .from(BUCKET)
+            .upload(path, file, { upsert: true });
+          upErr = retry.error;
+        } else {
+          // Can't create bucket (RLS or plan restriction) → fall back to base64
+          upErr = bucketErr;
+        }
+      }
+
+      // ── Attempt 3: Storage completely unavailable → store as base64 ───────
       if (upErr) {
-        // Storage not configured or bucket missing — fall back to object URL so
-        // the user can at least preview the image and paste a URL manually.
-        toast.error("Storage upload failed: " + upErr.message + ". Please paste an image URL manually.");
+        if (file.size > 2 * 1024 * 1024) {
+          toast.error("لا يمكن رفع الصورة إلى التخزين. الصورة كبيرة جداً للتخزين المحلي. يرجى لصق رابط URL مباشرة.");
+          return;
+        }
+        toast.loading("جارٍ معالجة الصورة...", { id: "img-process" });
+        const dataUrl = await fileToDataUrl(file);
+        setEditing((prev) => prev ? { ...prev, [fieldName]: dataUrl } : prev);
+        toast.success("تم تحميل الصورة محلياً ✓", { id: "img-process" });
         return;
       }
-      const { data } = supabase.storage.from("project-images").getPublicUrl(path);
+
+      // ── Success ───────────────────────────────────────────────────────────
+      const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
       setEditing((prev) => prev ? { ...prev, [fieldName]: data.publicUrl } : prev);
-      toast.success("Image uploaded!");
+      toast.success("تم رفع الصورة بنجاح ✓");
+    } catch (err: any) {
+      toast.error("خطأ غير متوقع: " + (err?.message ?? String(err)));
     } finally {
       setUploading(null);
     }
