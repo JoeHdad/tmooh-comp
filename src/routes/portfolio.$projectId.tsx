@@ -262,7 +262,7 @@ export function ProjectDetailPage() {
     setLoading(true);
     supabase
       .from("portfolio_projects")
-      .select("id, title, description, description_ar, image_url, link_url, category, published, industry, industry_ar, services, services_ar, platform, platform_ar, role, role_ar, challenge, challenge_ar, approach, approach_ar, solution, solution_ar, highlights_en_json, highlights_ar_json, scope_en_csv, scope_ar_csv, scope, scope_ar, gallery")
+      .select("id, title, description, description_ar, image_url, link_url, category, published, industry, industry_ar, services, services_ar, platform, platform_ar, role, role_ar, challenge, challenge_ar, solution, solution_ar, highlights_en_json, highlights_ar_json, scope_en_csv, scope_ar_csv, scope, scope_ar, gallery")
       .eq("id", projectId)
       .single()
       .then(({ data }) => {
@@ -309,7 +309,7 @@ export function ProjectDetailPage() {
     const platform = isAr ? (sbProject.platform_ar || sbProject.platform || "موقع ويب") : (sbProject.platform || sbProject.platform_ar || "Website");
     const role = isAr ? (sbProject.role_ar || sbProject.role || "تصميم المنتج") : (sbProject.role || sbProject.role_ar || "Product Design");
     const challenge = isAr ? (sbProject.challenge_ar || sbProject.challenge || "") : (sbProject.challenge || sbProject.challenge_ar || "");
-    const approach = isAr ? (sbProject.solution_ar || sbProject.solution || sbProject.approach_ar || sbProject.approach || "") : (sbProject.solution || sbProject.solution_ar || sbProject.approach || sbProject.approach_ar || "");
+    const approach = isAr ? (sbProject.solution_ar || sbProject.solution || "") : (sbProject.solution || sbProject.solution_ar || "");
 
     // Highlights parsing
     let highlights: { title: string; desc: string }[] = [];
