@@ -17,7 +17,8 @@ export const Route = createFileRoute("/admin/portfolio")({
       table="portfolio_projects"
       fields={[
         { name: "title",       label: "Title",       type: "text",     required: true },
-        { name: "description", label: "Description", type: "textarea" },
+        { name: "description", label: "DescriptionEn", type: "textarea" },
+        { name: "description_ar", label: "DescriptionAr", type: "textarea" },
         {
           name:  "image_url",
           label: "Project Image",
@@ -31,6 +32,22 @@ export const Route = createFileRoute("/admin/portfolio")({
           type:    "select",
           options: CATEGORY_OPTIONS,
         },
+        { name: "industry",     label: "Industry (En)",    type: "text" },
+        { name: "industry_ar",  label: "Industry (Ar)",    type: "text" },
+        { name: "services",     label: "Services (En)",    type: "text" },
+        { name: "services_ar",  label: "Services (Ar)",    type: "text" },
+        { name: "platform",     label: "Platform (En)",    type: "text" },
+        { name: "platform_ar",  label: "Platform (Ar)",    type: "text" },
+        { name: "role",         label: "Role (En)",        type: "text" },
+        { name: "role_ar",      label: "Role (Ar)",        type: "text" },
+        { name: "challenge",    label: "Challenge (En)",   type: "textarea" },
+        { name: "challenge_ar", label: "Challenge (Ar)",   type: "textarea" },
+        { name: "approach",     label: "Approach/Solution (En)", type: "textarea" },
+        { name: "approach_ar",  label: "Approach/Solution (Ar)", type: "textarea" },
+        { name: "highlights_en_json", label: "Highlights JSON En (array of {title, desc})", type: "textarea", placeholder: '[{"title": "Built for speed", "desc": "lightning fast"}]' },
+        { name: "highlights_ar_json", label: "Highlights JSON Ar (array of {title, desc})", type: "textarea", placeholder: '[{"title": "مصمم للسرعة", "desc": "سريع جدا"}]' },
+        { name: "scope_en_csv",  label: "Scope En (Comma separated)", type: "text", placeholder: "Next.js, Supabase, Tailwind" },
+        { name: "scope_ar_csv",  label: "Scope Ar (Comma separated)", type: "text", placeholder: "تصميم واجهات, برمجة" },
         { name: "sort_order", label: "Sort Order",   type: "number" },
         { name: "published",  label: "Published",    type: "boolean" },
       ]}

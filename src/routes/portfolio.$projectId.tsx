@@ -16,10 +16,27 @@ type SupabaseProject = {
   id: string;
   title: string;
   description: string | null;
+  description_ar: string | null;
   image_url: string | null;
   link_url: string | null;
   category: string | null;
   published: boolean;
+  industry: string | null;
+  industry_ar: string | null;
+  services: string | null;
+  services_ar: string | null;
+  platform: string | null;
+  platform_ar: string | null;
+  role: string | null;
+  role_ar: string | null;
+  challenge: string | null;
+  challenge_ar: string | null;
+  approach: string | null;
+  approach_ar: string | null;
+  highlights_en_json: string | null;
+  highlights_ar_json: string | null;
+  scope_en_csv: string | null;
+  scope_ar_csv: string | null;
 };
 
 type ProjectDetails = {
@@ -240,7 +257,7 @@ export function ProjectDetailPage() {
     setLoading(true);
     supabase
       .from("portfolio_projects")
-      .select("id, title, description, image_url, link_url, category, published")
+      .select("id, title, description, description_ar, image_url, link_url, category, published, industry, industry_ar, services, services_ar, platform, platform_ar, role, role_ar, challenge, challenge_ar, approach, approach_ar, highlights_en_json, highlights_ar_json, scope_en_csv, scope_ar_csv")
       .eq("id", projectId)
       .single()
       .then(({ data }) => {
@@ -279,36 +296,86 @@ export function ProjectDetailPage() {
       );
     }
 
-    // Render real Supabase project
+    // Dynamic Supabase content resolution with fallback
+    const title = sbProject.title;
+    const tagline = isAr ? (sbProject.description_ar || sbProject.description) : (sbProject.description || sbProject.description_ar);
+    const industry = isAr ? (sbProject.industry_ar || sbProject.industry || "وكالة رقمية") : (sbProject.industry || sbProject.industry_ar || "Digital Agency");
+    const services = isAr ? (sbProject.services_ar || sbProject.services || "تطوير ويب مخصص") : (sbProject.services || sbProject.services_ar || "Custom Web Dev");
+    const platform = isAr ? (sbProject.platform_ar || sbProject.platform || "موقع ويب") : (sbProject.platform || sbProject.platform_ar || "Website");
+    const role = isAr ? (sbProject.role_ar || sbProject.role || "تصميم المنتج") : (sbProject.role || sbProject.role_ar || "Product Design");
+    const challenge = isAr ? (sbProject.challenge_ar || sbProject.challenge || "") : (sbProject.challenge || sbProject.challenge_ar || "");
+    const approach = isAr ? (sbProject.approach_ar || sbProject.approach || "") : (sbProject.approach || sbProject.approach_ar || "");
+
+    // Highlights parsing
+    let highlights: { title: string; desc: string }[] = [];
+    try {
+      const jsonStr = isAr ? sbProject.highlights_ar_json : sbProject.highlights_en_json;
+      if (jsonStr) {
+        highlights = JSON.parse(jsonStr);
+      }
+    } catch (e) {
+      console.error("Error parsing highlights:", e);
+    }
+
+    if (!highlights || highlights.length === 0) {
+      // Default placeholder highlights matching mock
+      highlights = isAr ? [
+        { title: "بناء يعتمد على الوضوح", desc: "بنية وتخطيطات برمجية واضحة تهدف لتركيز انتباه الزائر ومنع تشتته." },
+        { title: "توجه بصري فاخر", desc: "تصميمات داكنة ممتازة مدمجة مع تدرجات لونية ناعمة وتفاصيل عصرية." },
+        { title: "هيكلية بصرية قوية", desc: "تمت صياغة الخطوط والمسافات بعناية لتحسين سهولة القراءة وتدفق المحتوى." },
+        { title: "تجربة موجهة للمشاريع", desc: "مصممة لتعكس السرعة، الطموح، والثقافة الرقمية الحديثة للشركات." },
+      ] : [
+        { title: "Built for clarity", desc: "A clean structure designed to keep the experience focused and distraction-free." },
+        { title: "Premium visual direction", desc: "Dark aesthetics combined with subtle gradients and modern UI details." },
+        { title: "Strong visual hierarchy", desc: "Typography and spacing crafted to improve readability and flow." },
+        { title: "Startup-focused experience", desc: "Designed to reflect speed, ambition, and modern digital culture." },
+      ];
+    }
+
+    // Scope parsing
+    let scope: string[] = [];
+    const scopeCsv = isAr ? sbProject.scope_ar_csv : sbProject.scope_en_csv;
+    if (scopeCsv) {
+      scope = scopeCsv.split(",").map(s => s.trim()).filter(Boolean);
+    }
+    if (scope.length === 0) {
+      scope = isAr 
+        ? ["تصميم واجهات المستخدم", "تصميم الويب", "استراتيجية المنتج", "أنظمة التصميم", "تجاوب كامل للشاشات", "توجه الهوية البصرية", "تجربة المستخدم", "الهوية الإبداعية"]
+        : ["UX/UI Design", "Web Design", "Product Strategy", "Design System", "Responsive Experience", "Brand Direction", "User Experience", "Visual Identity"];
+    }
+
     return (
       <div className="min-h-screen bg-background text-foreground">
         <Header />
+
         <main className="pt-32 pb-20 overflow-hidden">
-          {/* Back link + Title */}
+          {/* Title & Tagline Section */}
           <section className="container mx-auto max-w-6xl px-6 text-center">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-              <Link to="/portfolio" className="inline-flex items-center gap-2 text-xs font-semibold text-primary-glow hover:underline mb-6">
-                {isAr ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Link
+                to="/portfolio"
+                className="inline-flex items-center gap-2 text-xs font-semibold text-primary-glow hover:underline mb-6"
+              >
+                {isAr ? <ArrowRight className="h-4.5 w-4.5" /> : <ArrowLeft className="h-4.5 w-4.5" />}
                 {isAr ? "العودة للمعرض" : "Back to Portfolio"}
               </Link>
+
               <h1 className="font-display text-4xl font-extrabold sm:text-6xl tracking-tight text-white" dir="auto">
-                {sbProject.title}
+                {title}
               </h1>
-              {sbProject.description && (
+              {tagline && (
                 <p className="mx-auto mt-6 max-w-3xl text-base sm:text-lg text-neutral-400 font-medium leading-relaxed" dir="auto">
-                  {sbProject.description}
+                  {tagline}
                 </p>
-              )}
-              {sbProject.category && (
-                <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-muted-foreground">
-                  <Tag className="h-3.5 w-3.5" />
-                  {sbProject.category}
-                </div>
               )}
             </motion.div>
           </section>
 
-          {/* Image / Mockup */}
+          {/* Dynamic High-Fidelity Mockup Showcase */}
           <section className="container mx-auto max-w-5xl px-6 mt-12 sm:mt-16">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -318,45 +385,161 @@ export function ProjectDetailPage() {
             >
               <img
                 src={sbProject.image_url || heroMockup}
-                alt={sbProject.title}
+                alt={title}
                 className="w-full h-auto object-cover rounded-2xl max-h-[560px]"
               />
             </motion.div>
           </section>
 
-          {/* CTA button */}
+          {/* Metadata info bar */}
+          <section className="container mx-auto max-w-6xl px-6 mt-16 sm:mt-20">
+            <div className="grid grid-cols-2 gap-8 md:grid-cols-4 border-y border-white/10 py-10">
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
+                  {isAr ? "المجال" : "INDUSTRY"}
+                </span>
+                <p className="mt-2 text-base font-bold text-white" dir="auto">{industry}</p>
+              </div>
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
+                  {isAr ? "الخدمات" : "SERVICES"}
+                </span>
+                <p className="mt-2 text-base font-bold text-white leading-snug" dir="auto">{services}</p>
+              </div>
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
+                  {isAr ? "المنصة" : "PLATFORM"}
+                </span>
+                <p className="mt-2 text-base font-bold text-white" dir="auto">{platform}</p>
+              </div>
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
+                  {isAr ? "الدور الإبداعي" : "ROLE"}
+                </span>
+                <p className="mt-2 text-base font-bold text-white" dir="auto">{role}</p>
+              </div>
+            </div>
+          </section>
+
+          {/* Challenge & Approach Sections */}
+          {(challenge || approach) && (
+            <section className="container mx-auto max-w-6xl px-6 mt-16 sm:mt-24">
+              <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
+                {challenge && (
+                  <div>
+                    <h2 className="font-display text-2xl font-bold tracking-wider text-white uppercase sm:text-3xl">
+                      {isAr ? "التحدي التقني" : "THE CHALLENGE"}
+                    </h2>
+                    <p className="mt-6 text-sm sm:text-base leading-relaxed text-neutral-400" dir="auto">
+                      {challenge}
+                    </p>
+                  </div>
+                )}
+                {approach && (
+                  <div>
+                    <h2 className="font-display text-2xl font-bold tracking-wider text-white uppercase sm:text-3xl">
+                      {isAr ? "رؤيتنا ومنهجنا" : "OUR APPROACH"}
+                    </h2>
+                    <p className="mt-6 text-sm sm:text-base leading-relaxed text-neutral-400" dir="auto">
+                      {approach}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          {/* Product Highlights */}
+          <section className="container mx-auto max-w-6xl px-6 mt-20 sm:mt-32">
+            <div className="border-t border-white/5 pt-16">
+              <h2 className="font-display text-3xl font-extrabold text-white sm:text-4xl">
+                {isAr ? "أبرز مميزات المنتج" : "Product Highlights"}
+              </h2>
+              <p className="mt-2 text-sm text-neutral-400">
+                {isAr ? "بنيت بوضوح وتناسق وتفكير برمجى متقدم." : "Built with clarity, consistency, and modern product thinking."}
+              </p>
+
+              <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2">
+                {highlights.map((h, i) => (
+                  <div key={i} className="space-y-3">
+                    <h3 className="text-lg font-bold text-white flex items-center gap-2" dir="auto">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary-glow" />
+                      {h.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-neutral-400" dir="auto">
+                      {h.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Scope of Work */}
+          <section className="container mx-auto max-w-6xl px-6 mt-20 sm:mt-32">
+            <div className="border-t border-white/5 pt-16">
+              <h2 className="font-display text-3xl font-extrabold text-white sm:text-4xl">
+                {isAr ? "نطاق العمل" : "Scope of Work"}
+              </h2>
+              <p className="mt-2 text-sm text-neutral-400">
+                {isAr ? "تجربة رقمية كاملة مصممة من الاستراتيجية إلى التنفيذ الفعلي." : "A complete digital experience crafted from strategy to execution."}
+              </p>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                {scope.map((tag, i) => (
+                  <span
+                    key={i}
+                    className="rounded-full border border-white/10 bg-neutral-900 px-5 py-2.5 text-xs sm:text-sm font-semibold text-neutral-300 hover:border-primary/45 transition-colors"
+                    dir="auto"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Centered Explore Project Button */}
           {sbProject.link_url && (
-            <section className="container mx-auto max-w-6xl px-6 mt-16 text-center">
+            <section className="container mx-auto max-w-6xl px-6 mt-20 text-center">
               <a
                 href={sbProject.link_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white px-8 py-3.5 text-sm font-bold text-black shadow-glow hover:bg-neutral-100 hover:scale-105 active:scale-95 transition duration-200"
               >
-                {isAr ? "زيارة المشروع" : "Visit Project"}
+                {isAr ? "اضغط هنا لاستكشاف المشروع" : "Click here to Explore The Project"}
                 <ExternalLink className="h-4 w-4" />
               </a>
             </section>
           )}
 
-          {/* CTA Banner */}
+          {/* Bottom Call-To-Action Banner */}
           <section className="container mx-auto max-w-5xl px-6 mt-28">
             <div className="relative rounded-3xl border border-primary/20 bg-gradient-to-r from-violet-950/45 to-indigo-950/45 p-10 sm:p-16 text-center shadow-card overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+              
               <h2 className="font-display text-2xl font-extrabold sm:text-4xl text-white">
                 {isAr ? "منتجك القادم يبدأ هنا" : "Your next product starts here"}
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-xs sm:text-sm text-neutral-400 leading-relaxed">
-                {isAr ? "من الفكرة حتى الإطلاق — نساعد الشركات الناشئة والشركات القائمة على بناء وتصميم منتجات رقمية مبهرة." : "From idea to launch — we help startups build products people actually want to use."}
+                {isAr
+                  ? "من الفكرة حتى الإطلاق — نساعد الشركات الناشئة والشركات القائمة على بناء وتصميم منتجات رقمية مبهرة."
+                  : "From idea to launch — we help startups build products people actually want to use."}
               </p>
+
               <div className="mt-8">
-                <Link to="/contact" className="inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 text-sm font-bold text-black hover:bg-neutral-100 hover:scale-105 active:scale-95 transition duration-200">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 text-sm font-bold text-black hover:bg-neutral-100 hover:scale-105 active:scale-95 transition duration-200"
+                >
                   {isAr ? "ابنِ معنا" : "Build With Us"}
                 </Link>
               </div>
             </div>
           </section>
         </main>
+
         <Footer />
       </div>
     );
