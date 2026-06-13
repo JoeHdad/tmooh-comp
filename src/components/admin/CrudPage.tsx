@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { autoTranslateRecord, TranslateMapEntry } from "@/lib/gemini-translate";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -47,6 +48,11 @@ interface Props {
   fields: FieldDef[];
   listColumns: { name: string; label: string }[];
   orderBy?: string;
+  /**
+   * If provided, on save the CrudPage will call Gemini to auto-translate
+   * each English source field to its paired Arabic target field.
+   */
+  autoTranslateMap?: TranslateMapEntry[];
 }
 
 export function CrudPage({
@@ -56,6 +62,7 @@ export function CrudPage({
   fields,
   listColumns,
   orderBy = "sort_order",
+  autoTranslateMap,
 }: Props) {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
@@ -121,7 +128,7 @@ export function CrudPage({
   const save = async () => {
     if (!editing) return;
 
-    const buildPayload = (allowedKeys?: Set<string>) => {
+    const buildPayload = (allowedKeys?: Set<string>, extra?: Record<string, any>) => {
       const payload: Record<string, any> = {};
       for (const f of fields) {
         // Skip fields not in the DB if we know what exists
@@ -130,14 +137,35 @@ export function CrudPage({
         if (f.type === "number") v = Number(v) || 0;
         payload[f.name] = v === "" ? null : v;
       }
+      // Merge auto-translated Arabic fields
+      if (extra) {
+        for (const [k, v] of Object.entries(extra)) {
+          if (!allowedKeys || allowedKeys.has(k)) {
+            payload[k] = v || null;
+          }
+        }
+      }
       return payload;
     };
+
+    // ── Auto-translate English → Arabic if map is configured ─────────────────
+    let translatedFields: Record<string, any> = {};
+    if (autoTranslateMap && autoTranslateMap.length > 0) {
+      const toastId = "translating";
+      toast.loading("جارٍ الترجمة التلقائية إلى العربية…", { id: toastId });
+      try {
+        translatedFields = await autoTranslateRecord(editing, autoTranslateMap);
+        toast.success("تمت الترجمة التلقائية بنجاح ✓", { id: toastId });
+      } catch (e: any) {
+        toast.warning("لم تكتمل الترجمة التلقائية: " + (e?.message ?? ""), { id: toastId });
+      }
+    }
 
     const isUpdate = !!editing.id;
     const client = supabase as any;
 
     // Build payload — use known columns if available, otherwise try all
-    let payload = buildPayload(existingColumns ?? undefined);
+    let payload = buildPayload(existingColumns ?? undefined, translatedFields);
     let res = isUpdate
       ? await client.from(table).update(payload).eq("id", editing.id)
       : await client.from(table).insert(payload);
@@ -163,7 +191,7 @@ export function CrudPage({
 
       // If still failing, strip to absolute minimum
       if (res.error) {
-        const SAFE_COLS = new Set(["title", "description", "description_ar", "image_url", "link_url", "category", "sort_order", "published"]);
+        const SAFE_COLS = new Set(["title", "description", "image_url", "link_url", "category", "sort_order", "published"]);
         payload = buildPayload(SAFE_COLS);
         res = isUpdate
           ? await client.from(table).update(payload).eq("id", editing.id)
@@ -561,7 +589,9 @@ export function CrudPage({
             <Button variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={save}>Save</Button>
+            <Button onClick={save}>
+              {autoTranslateMap ? "💾 Save & Auto-Translate" : "Save"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
