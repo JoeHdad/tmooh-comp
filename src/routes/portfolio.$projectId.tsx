@@ -319,10 +319,10 @@ export function ProjectDetailPage() {
     // Dynamic Supabase content resolution with fallback
     const title = sbProject.title;
     const tagline = isAr ? (sbProject.description_ar || sbProject.description) : (sbProject.description || sbProject.description_ar);
-    const industry = isAr ? (sbProject.industry_ar || sbProject.industry || "وكالة رقمية") : (sbProject.industry || sbProject.industry_ar || "Digital Agency");
-    const services = isAr ? (sbProject.services_ar || sbProject.services || "تطوير ويب مخصص") : (sbProject.services || sbProject.services_ar || "Custom Web Dev");
-    const platform = isAr ? (sbProject.platform_ar || sbProject.platform || "موقع ويب") : (sbProject.platform || sbProject.platform_ar || "Website");
-    const role = isAr ? (sbProject.role_ar || sbProject.role || "تصميم المنتج") : (sbProject.role || sbProject.role_ar || "Product Design");
+    const industry = isAr ? (sbProject.industry_ar || sbProject.industry || null) : (sbProject.industry || sbProject.industry_ar || null);
+    const services = isAr ? (sbProject.services_ar || sbProject.services || null) : (sbProject.services || sbProject.services_ar || null);
+    const platform = isAr ? (sbProject.platform_ar || sbProject.platform || null) : (sbProject.platform || sbProject.platform_ar || null);
+    const role = isAr ? (sbProject.role_ar || sbProject.role || null) : (sbProject.role || sbProject.role_ar || null);
     const challenge = isAr ? (sbProject.challenge_ar || sbProject.challenge || "") : (sbProject.challenge || sbProject.challenge_ar || "");
     const approach = isAr ? (sbProject.solution_ar || sbProject.solution || "") : (sbProject.solution || sbProject.solution_ar || "");
 
@@ -337,20 +337,7 @@ export function ProjectDetailPage() {
       console.error("Error parsing highlights:", e);
     }
 
-    if (!highlights || highlights.length === 0) {
-      // Default placeholder highlights matching mock
-      highlights = isAr ? [
-        { title: "بناء يعتمد على الوضوح", desc: "بنية وتخطيطات برمجية واضحة تهدف لتركيز انتباه الزائر ومنع تشتته." },
-        { title: "توجه بصري فاخر", desc: "تصميمات داكنة ممتازة مدمجة مع تدرجات لونية ناعمة وتفاصيل عصرية." },
-        { title: "هيكلية بصرية قوية", desc: "تمت صياغة الخطوط والمسافات بعناية لتحسين سهولة القراءة وتدفق المحتوى." },
-        { title: "تجربة موجهة للمشاريع", desc: "مصممة لتعكس السرعة، الطموح، والثقافة الرقمية الحديثة للشركات." },
-      ] : [
-        { title: "Built for clarity", desc: "A clean structure designed to keep the experience focused and distraction-free." },
-        { title: "Premium visual direction", desc: "Dark aesthetics combined with subtle gradients and modern UI details." },
-        { title: "Strong visual hierarchy", desc: "Typography and spacing crafted to improve readability and flow." },
-        { title: "Startup-focused experience", desc: "Designed to reflect speed, ambition, and modern digital culture." },
-      ];
-    }
+    // Only show highlights if they exist in the database — no fake fallbacks
 
     // Scope parsing
     let scope: string[] = [];
@@ -363,11 +350,7 @@ export function ProjectDetailPage() {
         scope = scopeCsv.split(",").map(s => s.trim()).filter(Boolean);
       }
     }
-    if (scope.length === 0) {
-      scope = isAr 
-        ? ["تصميم واجهات المستخدم", "تصميم الويب", "استراتيجية المنتج", "أنظمة التصميم", "تجاوب كامل للشاشات", "توجه الهوية البصرية", "تجربة المستخدم", "الهوية الإبداعية"]
-        : ["UX/UI Design", "Web Design", "Product Strategy", "Design System", "Responsive Experience", "Brand Direction", "User Experience", "Visual Identity"];
-    }
+    // Only show scope if it exists in the database — no fake fallbacks
 
     return (
       <div className="min-h-screen bg-background text-foreground">
@@ -437,35 +420,45 @@ export function ProjectDetailPage() {
             )}
           </section>
 
-          {/* Metadata info bar */}
-          <section className="container mx-auto max-w-6xl px-6 mt-16 sm:mt-20">
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-4 border-y border-white/10 py-10">
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
-                  {isAr ? "المجال" : "INDUSTRY"}
-                </span>
-                <p className="mt-2 text-base font-bold text-white" dir="auto">{industry}</p>
+          {/* Metadata info bar — only rendered when at least one field has data */}
+          {(industry || services || platform || role) && (
+            <section className="container mx-auto max-w-6xl px-6 mt-16 sm:mt-20">
+              <div className="grid grid-cols-2 gap-8 md:grid-cols-4 border-y border-white/10 py-10">
+                {industry && (
+                  <div>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
+                      {isAr ? "المجال" : "INDUSTRY"}
+                    </span>
+                    <p className="mt-2 text-base font-bold text-white" dir="auto">{industry}</p>
+                  </div>
+                )}
+                {services && (
+                  <div>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
+                      {isAr ? "الخدمات" : "SERVICES"}
+                    </span>
+                    <p className="mt-2 text-base font-bold text-white leading-snug" dir="auto">{services}</p>
+                  </div>
+                )}
+                {platform && (
+                  <div>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
+                      {isAr ? "المنصة" : "PLATFORM"}
+                    </span>
+                    <p className="mt-2 text-base font-bold text-white" dir="auto">{platform}</p>
+                  </div>
+                )}
+                {role && (
+                  <div>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
+                      {isAr ? "الدور الإبداعي" : "ROLE"}
+                    </span>
+                    <p className="mt-2 text-base font-bold text-white" dir="auto">{role}</p>
+                  </div>
+                )}
               </div>
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
-                  {isAr ? "الخدمات" : "SERVICES"}
-                </span>
-                <p className="mt-2 text-base font-bold text-white leading-snug" dir="auto">{services}</p>
-              </div>
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
-                  {isAr ? "المنصة" : "PLATFORM"}
-                </span>
-                <p className="mt-2 text-base font-bold text-white" dir="auto">{platform}</p>
-              </div>
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
-                  {isAr ? "الدور الإبداعي" : "ROLE"}
-                </span>
-                <p className="mt-2 text-base font-bold text-white" dir="auto">{role}</p>
-              </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           {/* Challenge & Approach Sections */}
           {(challenge || approach) && (
@@ -495,55 +488,59 @@ export function ProjectDetailPage() {
             </section>
           )}
 
-          {/* Product Highlights */}
-          <section className="container mx-auto max-w-6xl px-6 mt-20 sm:mt-32">
-            <div className="border-t border-white/5 pt-16">
-              <h2 className="font-display text-3xl font-extrabold text-white sm:text-4xl">
-                {isAr ? "أبرز مميزات المنتج" : "Product Highlights"}
-              </h2>
-              <p className="mt-2 text-sm text-neutral-400">
-                {isAr ? "بنيت بوضوح وتناسق وتفكير برمجى متقدم." : "Built with clarity, consistency, and modern product thinking."}
-              </p>
+          {/* Product Highlights — only shown when data exists */}
+          {highlights.length > 0 && (
+            <section className="container mx-auto max-w-6xl px-6 mt-20 sm:mt-32">
+              <div className="border-t border-white/5 pt-16">
+                <h2 className="font-display text-3xl font-extrabold text-white sm:text-4xl">
+                  {isAr ? "أبرز مميزات المنتج" : "Product Highlights"}
+                </h2>
+                <p className="mt-2 text-sm text-neutral-400">
+                  {isAr ? "بنيت بوضوح وتناسق وتفكير برمجى متقدم." : "Built with clarity, consistency, and modern product thinking."}
+                </p>
 
-              <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2">
-                {highlights.map((h, i) => (
-                  <div key={i} className="space-y-3">
-                    <h3 className="text-lg font-bold text-white flex items-center gap-2" dir="auto">
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary-glow" />
-                      {h.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-neutral-400" dir="auto">
-                      {h.desc}
-                    </p>
-                  </div>
-                ))}
+                <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2">
+                  {highlights.map((h, i) => (
+                    <div key={i} className="space-y-3">
+                      <h3 className="text-lg font-bold text-white flex items-center gap-2" dir="auto">
+                        <span className="h-1.5 w-1.5 rounded-full bg-primary-glow" />
+                        {h.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed text-neutral-400" dir="auto">
+                        {h.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
 
-          {/* Scope of Work */}
-          <section className="container mx-auto max-w-6xl px-6 mt-20 sm:mt-32">
-            <div className="border-t border-white/5 pt-16">
-              <h2 className="font-display text-3xl font-extrabold text-white sm:text-4xl">
-                {isAr ? "نطاق العمل" : "Scope of Work"}
-              </h2>
-              <p className="mt-2 text-sm text-neutral-400">
-                {isAr ? "تجربة رقمية كاملة مصممة من الاستراتيجية إلى التنفيذ الفعلي." : "A complete digital experience crafted from strategy to execution."}
-              </p>
+          {/* Scope of Work — only shown when data exists */}
+          {scope.length > 0 && (
+            <section className="container mx-auto max-w-6xl px-6 mt-20 sm:mt-32">
+              <div className="border-t border-white/5 pt-16">
+                <h2 className="font-display text-3xl font-extrabold text-white sm:text-4xl">
+                  {isAr ? "نطاق العمل" : "Scope of Work"}
+                </h2>
+                <p className="mt-2 text-sm text-neutral-400">
+                  {isAr ? "تجربة رقمية كاملة مصممة من الاستراتيجية إلى التنفيذ الفعلي." : "A complete digital experience crafted from strategy to execution."}
+                </p>
 
-              <div className="mt-8 flex flex-wrap gap-3">
-                {scope.map((tag, i) => (
-                  <span
-                    key={i}
-                    className="rounded-full border border-white/10 bg-neutral-900 px-5 py-2.5 text-xs sm:text-sm font-semibold text-neutral-300 hover:border-primary/45 transition-colors"
-                    dir="auto"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {scope.map((tag, i) => (
+                    <span
+                      key={i}
+                      className="rounded-full border border-white/10 bg-neutral-900 px-5 py-2.5 text-xs sm:text-sm font-semibold text-neutral-300 hover:border-primary/45 transition-colors"
+                      dir="auto"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           {/* Centered Explore Project Button */}
           {sbProject.link_url && (
