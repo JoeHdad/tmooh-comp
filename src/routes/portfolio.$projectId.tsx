@@ -260,6 +260,15 @@ export function ProjectDetailPage() {
       setLoading(false);
       return;
     }
+
+    // Verify if projectId matches a standard UUID format before querying Supabase
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(projectId)) {
+      setSbProject(null);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     supabase
       .from("portfolio_projects")
