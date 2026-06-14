@@ -7,6 +7,7 @@ const CATEGORY_OPTIONS = [
   { value: "mobile",    label: "📱 Mobile Apps" },
   { value: "ai",        label: "🤖 AI & Automation" },
   { value: "design",    label: "🎨 UI/UX Design" },
+  { value: "graphics",  label: "🖌️ Graphic Design" },
   { value: "marketing", label: "📣 Digital Marketing" },
 ];
 

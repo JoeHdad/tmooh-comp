@@ -13,6 +13,7 @@ import {
   Calendar,
   Star,
   Quote,
+  Palette,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
@@ -40,6 +41,7 @@ const CATEGORIES: Category[] = [
   { key: "mobile",     labelEn: "Mobile Apps",        labelAr: "تطبيقات الجوال",   Icon: Smartphone },
   { key: "ai",         labelEn: "AI & Automation",    labelAr: "الذكاء الاصطناعي", Icon: Cpu },
   { key: "design",     labelEn: "UI/UX Design",       labelAr: "تصميم واجهات",     Icon: Layers },
+  { key: "graphics",   labelEn: "Graphic Design",     labelAr: "التصميم الجرافيكي", Icon: Palette },
   { key: "marketing",  labelEn: "Digital Marketing",  labelAr: "التسويق الرقمي",   Icon: Megaphone },
 ];
 
@@ -62,6 +64,7 @@ const CAT_COLORS: Record<string, string> = {
   mobile:    "from-violet-500/20 to-violet-600/5",
   ai:        "from-cyan-500/20 to-cyan-600/5",
   design:    "from-pink-500/20 to-pink-600/5",
+  graphics:  "from-emerald-500/20 to-emerald-600/5",
   marketing: "from-orange-500/20 to-orange-600/5",
   default:   "from-primary/20 to-primary/5",
 };
