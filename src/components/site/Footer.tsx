@@ -14,11 +14,11 @@ export function Footer() {
         {/* 5-Column Grid */}
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {/* Column 1: Logo & Company Desc */}
-          <div className="lg:col-span-1 space-y-4">
+          <div className="lg:col-span-2 space-y-4">
             <Link to="/" className="inline-block">
               <img src={logo} alt="TMOOH" className="h-12 w-auto" />
             </Link>
-            <p className="text-sm leading-relaxed text-neutral-400">
+            <p className="text-sm leading-relaxed text-neutral-400 max-w-xs">
               {t("footer.desc")}
             </p>
           </div>
@@ -156,8 +156,8 @@ export function Footer() {
             © {new Date().getFullYear()} TMOOH. {t("footer.rights")}
           </p>
           <div className="flex items-center gap-6">
-            <a href="mailto:info@tmooh.com" className="hover:text-primary transition-colors">
-              info@tmooh.com
+            <a href="mailto:tmooh.contact@gmail.com" className="hover:text-primary transition-colors">
+              tmooh.contact@gmail.com
             </a>
             <a href="tel:+970595172603" className="hover:text-primary transition-colors">
               +970 595 172 603

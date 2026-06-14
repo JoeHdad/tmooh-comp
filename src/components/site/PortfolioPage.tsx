@@ -298,7 +298,7 @@ export function PortfolioPage() {
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/8 blur-3xl" />
         </div>
 
-        <div className="container mx-auto max-w-5xl px-6">
+        <div className="container mx-auto max-w-6xl px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -319,11 +319,6 @@ export function PortfolioPage() {
                 : "Join 100+ Successful Businesses We've Transformed Their Digital Landscape!"}
             </h2>
 
-            <p className="mx-auto mt-6 max-w-3xl text-sm sm:text-base text-muted-foreground leading-relaxed" dir="auto">
-              {isAr
-                ? "لقد رأيت ما بنيناه للآخرين. الآن تخيّل ما يمكننا بناؤه لك. سواء كنت تحتاج إلى منصة ويب مخصصة تدرّ عائداً، أو تطبيق جوال يتوسّع مع مستخدميك، أو استراتيجية رقمية تسود السوق — لدينا الخبرة والمنهجية المثبتة للتسليم. السؤال ليس إن كنت تحتاج إلى تحوّل رقمي. بل هل ستبدأ اليوم أم ستفسح المجال لمنافسيك؟"
-                : "You've just seen what we've built for others. Now imagine what we could build for you. Whether you need a custom web platform that generates revenue, a mobile app that scales with your users, or a digital strategy that dominates your market — we have the expertise and proven process to deliver. The question isn't whether you need a digital transformation. It's whether you'll start today or lose ground to competitors who will."}
-            </p>
 
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link

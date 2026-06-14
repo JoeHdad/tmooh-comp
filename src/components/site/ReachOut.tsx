@@ -2,7 +2,7 @@ import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { Mail, MessageCircle } from "lucide-react";
 
-const EMAIL = "tmooh.solutions@gmail.com";
+const EMAIL = "tmooh.contact@gmail.com";
 const WHATSAPP = "+970595172603";
 const WHATSAPP_LINK = "https://wa.me/970595172603";
 
@@ -10,7 +10,7 @@ export function ReachOut() {
   const { t } = useI18n();
   return (
     <section id="contact" className="relative py-24 sm:py-32">
-      <div className="container mx-auto max-w-4xl px-6 text-center">
+      <div className="container mx-auto max-w-6xl px-6 text-center">
         <h2 className="font-display text-4xl font-bold sm:text-5xl">{t("reach.title")}</h2>
         <p className="mt-4 text-muted-foreground">{t("reach.sub")}</p>
 

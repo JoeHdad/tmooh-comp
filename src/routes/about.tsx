@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { About } from "@/components/site/About";
-import { Testimonials } from "@/components/site/Testimonials";
 import { Footer } from "@/components/site/Footer";
 
 export const Route = createFileRoute("/about")({
@@ -28,9 +27,8 @@ function Page() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
-      <main className="pt-28">
+      <main className="pt-20">
         <About />
-        <Testimonials />
       </main>
       <Footer />
     </div>

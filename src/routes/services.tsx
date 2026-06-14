@@ -31,7 +31,7 @@ export function ServicesPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
-      <main className="pt-28">
+      <main className="pt-20">
         <Services isPage />
       </main>
       <Footer />

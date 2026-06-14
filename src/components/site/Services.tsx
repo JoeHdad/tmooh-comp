@@ -166,7 +166,7 @@ export function Services({ isPage = false }: ServicesProps) {
 
       {/* Services Page Custom CTA */}
       {isPage && (
-        <div className="container mx-auto max-w-4xl px-6 mt-24">
+        <div className="container mx-auto max-w-6xl px-6 mt-24">
           <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-card/40 to-card/10 p-8 sm:p-12 text-center relative overflow-hidden">
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
             <h3 className="font-display text-2xl sm:text-3xl font-bold text-foreground">
