@@ -169,9 +169,9 @@ export function PortfolioPage() {
       </section>
 
       {/* ── CATEGORY FILTER PILLS ──────────────────────── */}
-      <section className="sticky top-20 z-20 bg-background/80 backdrop-blur-lg border-b border-white/5 py-4">
+      <section className="sticky top-20 z-20 bg-background/80 backdrop-blur-lg border-b border-white/5 py-4 overflow-hidden">
         <div className="container mx-auto max-w-6xl px-6">
-          <div className="flex flex-wrap items-center justify-center gap-2 pb-1">
+          <div className="flex items-center justify-start md:justify-center gap-2 pb-1 overflow-x-auto no-scrollbar scroll-smooth -mx-6 px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {CATEGORIES.map((cat) => {
               const CatIcon = cat.Icon;
               const isActive = active === cat.key;

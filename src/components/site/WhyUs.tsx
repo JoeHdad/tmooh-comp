@@ -41,16 +41,16 @@ export function WhyUs() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -4 }}
-                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-card/40 p-6 sm:p-8 shadow-card flex flex-col items-center justify-center text-center transition-all duration-300"
+                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-card/40 p-4 sm:p-8 shadow-card flex flex-col items-center justify-center text-center transition-all duration-300"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow group-hover:scale-110 transition-transform duration-300">
-                  <Icon className="h-6 w-6" />
+                <div className="mb-4 inline-flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow group-hover:scale-110 transition-transform duration-300">
+                  <Icon className="h-5.5 w-5.5 sm:h-6 sm:w-6" />
                 </div>
-                <div className="font-display text-3xl sm:text-4xl font-extrabold text-gradient mb-2">
+                <div className="font-display text-2xl xs:text-3xl sm:text-4xl font-extrabold text-gradient mb-2 whitespace-nowrap">
                   {t(`why.stat.${id}.val`)}
                 </div>
-                <div className="text-xs sm:text-sm font-medium tracking-wide text-muted-foreground">
+                <div className="text-[11px] sm:text-xs md:text-sm font-medium tracking-wide text-muted-foreground leading-snug">
                   {t(`why.stat.${id}.lbl`)}
                 </div>
               </motion.div>

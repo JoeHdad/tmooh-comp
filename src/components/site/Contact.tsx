@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Mail, Send, MessageCircle, Phone, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
-const EMAIL = "tmooh.solutions@gmail.com";
+const EMAIL = "tmooh.contact@gmail.com";
 const WHATSAPP = "+970595172603";
 const WHATSAPP_LINK = "https://wa.me/970595172603";
 const PHONE = "+970595172603";
@@ -173,7 +173,7 @@ export function Contact() {
                 className="mt-0.5 h-4 w-4 rounded border-white/20 bg-transparent accent-primary"
                 required
               />
-              <span>{t("contact.agree")}</span>
+              <span className="leading-tight">{t("contact.agree")}</span>
             </label>
 
             <button
@@ -187,7 +187,7 @@ export function Contact() {
           </motion.form>
 
           {/* Cards Side */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
+          <div className="lg:col-span-5 flex flex-col gap-6 w-full overflow-hidden">
             {cards.map(({ key, label, Icon, href, target }, i) => (
               <motion.a
                 key={key}
@@ -199,17 +199,17 @@ export function Contact() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -4 }}
-                className="group flex items-center gap-5 rounded-3xl border border-white/10 bg-card/40 p-6 shadow-card hover:border-primary/30 transition-all duration-300"
+                className="group flex items-center gap-4 rounded-3xl border border-white/10 bg-card/40 p-4 sm:p-6 shadow-card hover:border-primary/30 transition-all duration-300 w-full min-w-0"
               >
-                <div className="flex-shrink-0 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow group-hover:scale-110 transition-transform duration-300">
-                  <Icon className="h-6 w-6" />
+                <div className="flex-shrink-0 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow group-hover:scale-110 transition-transform duration-300">
+                  <Icon className="h-5.5 w-5.5 sm:h-6 sm:w-6" />
                 </div>
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-glow" dir="auto">
+                <div className="min-w-0 flex-1">
+                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-glow truncate" dir="auto">
                     {t(key)}
                   </div>
                   <div
-                    className="mt-1 font-display text-base sm:text-lg font-bold text-foreground transition group-hover:text-primary-glow"
+                    className="mt-1 font-display text-sm sm:text-base md:text-lg font-bold text-foreground transition group-hover:text-primary-glow break-all whitespace-normal"
                     dir="ltr"
                   >
                     {label}
