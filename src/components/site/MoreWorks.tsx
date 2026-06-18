@@ -2,6 +2,7 @@ import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "@tanstack/react-router";
 import work1 from "@/assets/work-1.jpg";
 import work2 from "@/assets/work-2.jpg";
 
@@ -30,6 +31,7 @@ export function MoreWorks() {
   const items =
     projects && projects.length > 0
       ? projects.map((p) => ({
+          id: p.id,
           title: p.title,
           description: p.description ?? "",
           img: p.image_url ?? work1,
@@ -38,6 +40,7 @@ export function MoreWorks() {
         }))
       : [
           {
+            id: "f1",
             title: t("more.name"),
             description: t("more.text"),
             img: work1,
@@ -45,6 +48,7 @@ export function MoreWorks() {
             link_url: null,
           },
           {
+            id: "f2",
             title: t("more.name"),
             description: t("more.text"),
             img: work2,
@@ -67,7 +71,6 @@ export function MoreWorks() {
 
         <div className="grid gap-8 md:grid-cols-2">
           {items.map((it, i) => {
-            const Wrap: any = it.link_url ? "a" : "div";
             return (
               <motion.article
                 key={i}
@@ -77,10 +80,9 @@ export function MoreWorks() {
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="group"
               >
-                <Wrap
-                  {...(it.link_url
-                    ? { href: it.link_url, target: "_blank", rel: "noreferrer" }
-                    : {})}
+                <Link
+                  to="/portfolio/$projectId"
+                  params={{ projectId: it.id }}
                   className="block cursor-pointer"
                 >
                   <div className="overflow-hidden rounded-3xl border border-white/10 bg-card shadow-card">
@@ -113,7 +115,7 @@ export function MoreWorks() {
                       </div>
                     )}
                   </div>
-                </Wrap>
+                </Link>
               </motion.article>
             );
           })}
