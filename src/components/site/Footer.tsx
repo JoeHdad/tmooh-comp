@@ -11,8 +11,8 @@ export function Footer() {
   return (
     <footer className="relative border-t border-white/10 bg-[#121212] py-16 text-foreground">
       <div className="container mx-auto max-w-7xl px-6">
-        {/* 5-Column Grid */}
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        {/* 6-Column Grid */}
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
           {/* Column 1: Logo & Company Desc */}
           <div className="lg:col-span-2 space-y-4">
             <Link to="/" className="inline-block">
