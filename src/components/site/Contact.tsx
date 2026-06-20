@@ -7,9 +7,9 @@ import { Mail, Send, MessageCircle, Phone, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 const EMAIL = "tmooh.contact@gmail.com";
-const WHATSAPP = "+970595172603";
-const WHATSAPP_LINK = "https://wa.me/970595172603";
-const PHONE = "+970595172603";
+const WHATSAPP = "+972595172603";
+const WHATSAPP_LINK = "https://wa.me/972595172603";
+const PHONE = "+972595172603";
 
 const schema = z.object({
   full_name: z.string().trim().min(1).max(100),

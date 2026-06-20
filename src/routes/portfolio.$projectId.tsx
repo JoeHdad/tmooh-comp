@@ -102,7 +102,7 @@ const PROJECTS_DATA: Record<string, ProjectDetails> = {
     ],
     scopeEn: ["UX/UI Design", "Next.js", "Supabase", "Stripe Integration", "SEO Optimization"],
     scopeAr: ["تصميم واجهات المستخدم", "Next.js", "Supabase", "ربط بوابة Stripe", "تهيئة محركات البحث"],
-    linkUrl: "https://wa.me/970595172603",
+    linkUrl: "https://wa.me/972595172603",
   },
   f2: {
     titleEn: "Al-Noor Logistics App",
@@ -135,7 +135,7 @@ const PROJECTS_DATA: Record<string, ProjectDetails> = {
     ],
     scopeEn: ["Flutter App Dev", "Google Maps API", "WebSocket Integration", "Offline Sync", "Node.js Backend"],
     scopeAr: ["تطوير تطبيق Flutter", "خرائط Google API", "ربط الـ WebSocket", "المزامنة بدون إنترنت", "لوحة تحكم Node.js"],
-    linkUrl: "https://wa.me/970595172603",
+    linkUrl: "https://wa.me/972595172603",
   },
   f3: {
     titleEn: "AI Customer Support Bot",
@@ -168,7 +168,7 @@ const PROJECTS_DATA: Record<string, ProjectDetails> = {
     ],
     scopeEn: ["OpenAI API", "Vector Databases", "LangChain", "Python Backend", "React Dashboard"],
     scopeAr: ["واجهة OpenAI API", "قواعد البيانات المتجهية", "إطار عمل LangChain", "خلفية Python", "لوحة تحكم React"],
-    linkUrl: "https://wa.me/970595172603",
+    linkUrl: "https://wa.me/972595172603",
   },
   f4: {
     titleEn: "StyleHub Brand & Web",
@@ -201,7 +201,7 @@ const PROJECTS_DATA: Record<string, ProjectDetails> = {
     ],
     scopeEn: ["Brand Identity", "Figma Prototyping", "UI/UX Design", "Tailwind CSS", "Motion Graphics"],
     scopeAr: ["الهوية البصرية", "نماذج Figma التفاعلية", "تصميم واجهات المستخدم", "Tailwind CSS", "المؤثرات الحركية"],
-    linkUrl: "https://wa.me/970595172603",
+    linkUrl: "https://wa.me/972595172603",
   },
 };
 
@@ -237,7 +237,7 @@ const DEFAULT_PROJECT_DATA: ProjectDetails = {
   ],
   scopeEn: ["UX/UI Design", "Web Design", "Product Strategy", "Design System", "Responsive Experience", "Brand Direction", "User Experience", "Visual Identity"],
   scopeAr: ["تصميم واجهات المستخدم", "تصميم الويب", "استراتيجية المنتج", "أنظمة التصميم", "تجاوب كامل للشاشات", "توجه الهوية البصرية", "تجربة المستخدم", "الهوية الإبداعية"],
-  linkUrl: "https://wa.me/970595172603",
+  linkUrl: "https://wa.me/972595172603",
 };
 
 export function ProjectDetailPage() {

@@ -159,8 +159,8 @@ export function Footer() {
             <a href="mailto:tmooh.contact@gmail.com" className="hover:text-primary transition-colors">
               tmooh.contact@gmail.com
             </a>
-            <a href="tel:+970595172603" className="hover:text-primary transition-colors">
-              +970 595 172 603
+            <a href="tel:+972595172603" className="hover:text-primary transition-colors">
+              +972 595 172 603
             </a>
           </div>
         </div>
@@ -168,7 +168,7 @@ export function Footer() {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/970595172603"
+        href="https://wa.me/972595172603"
         target="_blank"
         rel="noopener noreferrer"
         className={`fixed bottom-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg shadow-emerald-500/20 transition-all duration-300 hover:scale-110 hover:bg-emerald-600 hover:shadow-emerald-500/40 active:scale-95 ${

@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { Mail, MessageCircle } from "lucide-react";
 
 const EMAIL = "tmooh.contact@gmail.com";
-const WHATSAPP = "+970595172603";
-const WHATSAPP_LINK = "https://wa.me/970595172603";
+const WHATSAPP = "+972595172603";
+const WHATSAPP_LINK = "https://wa.me/972595172603";
 
 export function ReachOut() {
   const { t } = useI18n();
